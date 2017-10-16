@@ -8,9 +8,9 @@ namespace WPF_client.ViewModel
     {
         public MainWindowViewModel()
         {
-            DemoItems = new DemoItem[] {};
+            MainMenuItems = new PageContentItem[] {};
         }
 
-        public DemoItem[] DemoItems { get; }
+        public PageContentItem[] MainMenuItems { get; }
     }
 }

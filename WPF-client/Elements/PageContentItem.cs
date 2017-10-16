@@ -7,7 +7,7 @@ using WPF_client.Extensions;
 
 namespace WPF_client.Elements
 {
-    public class DemoItem : INotifyPropertyChanged
+    public class PageContentItem : INotifyPropertyChanged
     {
         private string _name;
         private object _content;
@@ -15,7 +15,7 @@ namespace WPF_client.Elements
         private ScrollBarVisibility _verticalScrollBarVisibilityRequirement;
         private Thickness _marginRequirement = new Thickness(16);
 
-        public DemoItem(string name, object content)
+        public PageContentItem(string name, object content)
         {
             _name = name;
             Content = content;

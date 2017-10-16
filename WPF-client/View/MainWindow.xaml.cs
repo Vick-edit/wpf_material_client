@@ -39,7 +39,7 @@ namespace WPF_client
                 dependencyObject = VisualTreeHelper.GetParent(dependencyObject);
             }
 
-            MenuToggleButton.IsChecked = false;
+            MainMenuToggleButton.IsChecked = false;
         }
 
         private async void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)

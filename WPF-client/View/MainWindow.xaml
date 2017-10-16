@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPF_client.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:WPF_client"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:elements="clr-namespace:WPF_client.Elements"
+        xmlns:ViewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.MainWindow"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="13"
         Background="{DynamicResource MaterialDesignPaper}"
-FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"  
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"  
         Title="Electricae Oraculum" Height="800" Width="1000" MinHeight="800" MinWidth="1000" Icon="/WPF-client;component/chart.ico" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
@@ -22,19 +23,22 @@ FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Window.DataContext>
+        <ViewModel:MainWindowViewModel/>
+    </Window.DataContext>
     <materialDesign:DialogHost Identifier="RootDialog">
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked, ElementName=MainMenuToggleButton}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="212">
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                     DockPanel.Dock="Top"
                                     HorizontalAlignment="Right" Margin="16"
-                                    IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="DemoItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
-                             ItemsSource="{Binding DemoItems}"
+                                    IsChecked="{Binding IsChecked, ElementName=MainMenuToggleButton, Mode=TwoWay}" />
+                    <ListBox x:Name="MenuItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
+                             ItemsSource="{Binding MainMenuItems}"
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="elements:DemoItem">
+                            <DataTemplate DataType="elements:PageContentItem">
                                 <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -42,11 +46,10 @@ FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <DockPanel>
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" 
-                                          Mode="PrimaryMid" DockPanel.Dock="Top">
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" DockPanel.Dock="Top" Mode="PrimaryMid">
                     <DockPanel>
                         <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                        x:Name="MenuToggleButton"/>
+                                        x:Name="MainMenuToggleButton"/>
                         <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                             <StackPanel>
                                 <Button Content="Hello World" Click="MenuPopupButton_OnClick"/>
@@ -65,16 +68,17 @@ FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <ScrollViewer Grid.Row="1" 
-                                  HorizontalScrollBarVisibility="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.HorizontalScrollBarVisibilityRequirement}"
-                                  VerticalScrollBarVisibility="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.VerticalScrollBarVisibilityRequirement}" 
-                                  Padding="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.MarginRequirement}">
-                        <ContentControl Content="{Binding ElementName=DemoItemsListBox, Path=SelectedItem.Content}" />
+                                  HorizontalScrollBarVisibility="{Binding SelectedItem.HorizontalScrollBarVisibilityRequirement, ElementName=MenuItemsListBox}"
+                                  VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement, ElementName=MenuItemsListBox}" 
+                                  Padding="{Binding SelectedItem.MarginRequirement, ElementName=MenuItemsListBox}">
+                        <ContentControl Content="{Binding SelectedItem.Content, ElementName=MenuItemsListBox}" />
                     </ScrollViewer>
 
-                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
-                                            Grid.Row="1" />
+                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" 
+                                             x:Name="MainSnackbar"
+                                             Grid.Row="1" />
                 </Grid>
             </DockPanel>
-        </materialDesign:DrawerHost>                
+        </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>
