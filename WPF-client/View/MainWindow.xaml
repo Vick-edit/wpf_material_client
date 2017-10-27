@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_client"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:elements="clr-namespace:WPF_client.Elements"
-        xmlns:ViewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.MainWindow"
+        xmlns:viewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.MainWindow"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -23,13 +22,15 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+
     <Window.DataContext>
-        <ViewModel:MainWindowViewModel/>
+        <viewModel:MainWindowViewModel/>
     </Window.DataContext>
-    <materialDesign:DialogHost Identifier="RootDialog">
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked, ElementName=MainMenuToggleButton}">
+
+    <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        <materialDesign:DrawerHost x:Name="LeftMenuRoot" IsLeftDrawerOpen="{Binding IsChecked, ElementName=MainMenuToggleButton}">
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel MinWidth="212">
+                <DockPanel x:Name="LeftMenu" MinWidth="212">
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                     DockPanel.Dock="Top"
                                     HorizontalAlignment="Right" Margin="16"
@@ -45,40 +46,45 @@
                     </ListBox>
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
-            <DockPanel>
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" DockPanel.Dock="Top" Mode="PrimaryMid">
-                    <DockPanel>
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                        x:Name="MainMenuToggleButton"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                            <StackPanel>
-                                <Button Content="Hello World" Click="MenuPopupButton_OnClick"/>
-                                <Button Content="Nice Popup" Click="MenuPopupButton_OnClick"/>
-                                <Button Content="Can't Touch This" IsEnabled="False" />
-                                <Separator/>
-                                <Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Electricae Oraculum"/>
-                    </DockPanel>
-                </materialDesign:ColorZone>
+            <elements:LeftMenuContentWrapper 
+                IsLeftMenuOpen="{Binding ElementName=LeftMenuRoot, Path=IsLeftDrawerOpen}" 
+                LeftMenuSize="{Binding ElementName=LeftMenu, Path=ActualWidth, Mode=OneWay}" IsSlideMenu="True">
+                <elements:LeftMenuContentWrapper.TopElementContent>
+                    <StackPanel>
+                        <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" DockPanel.Dock="Top" Mode="PrimaryMid">
+                            <DockPanel>
+                                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                      x:Name="MainMenuToggleButton"/>
+                                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                                    <StackPanel>
+                                        <Button Content="Пункт меню #1" Click="MenuPopupButton_OnClick"/>
+                                        <Button Content="Пункт меню #2" Click="MenuPopupButton_OnClick"/>
+                                        <Button Content="Пункт меню #3 - Не рабочий" Click="MenuPopupButton_OnClick" IsEnabled="False"/>
+                                        <Button Content="Пункт меню #4" Click="MenuPopupButton_OnClick"/>
+                                        <Separator/>
+                                        <Button Content="Пункт меню Последний" Click="MenuPopupButton_OnClick"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Electricae Oraculum"/>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
+                    </StackPanel>
+                </elements:LeftMenuContentWrapper.TopElementContent>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <ScrollViewer Grid.Row="1" 
+                    <ScrollViewer Grid.Row="0" 
                                   HorizontalScrollBarVisibility="{Binding SelectedItem.HorizontalScrollBarVisibilityRequirement, ElementName=MenuItemsListBox}"
                                   VerticalScrollBarVisibility="{Binding SelectedItem.VerticalScrollBarVisibilityRequirement, ElementName=MenuItemsListBox}" 
                                   Padding="{Binding SelectedItem.MarginRequirement, ElementName=MenuItemsListBox}">
                         <ContentControl Content="{Binding SelectedItem.Content, ElementName=MenuItemsListBox}" />
                     </ScrollViewer>
-
                     <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" 
                                              x:Name="MainSnackbar"
-                                             Grid.Row="1" />
+                                             Grid.Row="0" />
                 </Grid>
-            </DockPanel>
+            </elements:LeftMenuContentWrapper>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>
