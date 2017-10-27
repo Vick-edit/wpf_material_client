@@ -1,6 +1,7 @@
 ﻿using System;
 using MaterialDesignThemes.Wpf;
 using WPF_client.Elements;
+using WPF_client.View;
 
 namespace WPF_client.ViewModel
 {
@@ -8,7 +9,10 @@ namespace WPF_client.ViewModel
     {
         public MainWindowViewModel()
         {
-            MainMenuItems = new PageContentItem[] {};
+            MainMenuItems = new PageContentItem[]
+            {
+                new PageContentItem("Цветовая тема", new PaletteSelector { DataContext = new PaletteSelectorViewModel() }),
+            };
         }
 
         public PageContentItem[] MainMenuItems { get; }

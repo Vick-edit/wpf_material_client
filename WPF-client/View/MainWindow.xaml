@@ -7,11 +7,11 @@
         xmlns:elements="clr-namespace:WPF_client.Elements"
         xmlns:viewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.MainWindow"
         mc:Ignorable="d"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"  
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="13"
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"  
         Title="Electricae Oraculum" Height="800" Width="1000" MinHeight="800" MinWidth="1000" Icon="/WPF-client;component/chart.ico" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
