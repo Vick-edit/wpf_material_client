@@ -6,32 +6,40 @@ using WPF_client.Extensions;
 
 namespace WPF_client.ViewModel
 {
-    public class PaletteSelectorViewModel
+    public class PaletteSelectorViewModel : ViewModelBase
     {
         public IEnumerable<Swatch> Swatches { get; }
+
+        private readonly PaletteHelper _paletteHelper;
+
 
         public PaletteSelectorViewModel()
         {
             Swatches = new SwatchesProvider().Swatches;
+
+            _paletteHelper = new PaletteHelper();
         }
 
 
-        public ICommand ToggleBaseCommand { get; } = new BaseCommandImplementation(a => ApplyBase((bool)a) );
-        private static void ApplyBase(bool isDark)
+        [MapCommand(nameof(ApplyBase))]
+        public ICommand ToggleBaseCommand { get; private set; }
+        private void ApplyBase(bool isDark)
         {
-            new PaletteHelper().SetLightDark(isDark);
+            _paletteHelper.SetLightDark(isDark);
         }
 
-        public ICommand ApplyPrimaryCommand { get; } = new BaseCommandImplementation(a => ApplyPrimary((Swatch)a) );
-        private static void ApplyPrimary(Swatch swatch)
+        [MapCommand(nameof(ApplyPrimary))]
+        public ICommand ApplyPrimaryCommand { get; private set; }
+        private void ApplyPrimary(Swatch swatch)
         {
-            new PaletteHelper().ReplacePrimaryColor(swatch);
+            _paletteHelper.ReplacePrimaryColor(swatch);
         }
 
-        public ICommand ApplyAccentCommand { get; } = new BaseCommandImplementation(a => ApplyAccent((Swatch)a) );
-        private static void ApplyAccent(Swatch swatch)
+        [MapCommand(nameof(ApplyAccent))]
+        public ICommand ApplyAccentCommand { get; private set; }
+        private void ApplyAccent(Swatch swatch)
         {
-            new PaletteHelper().ReplaceAccentColor(swatch);
+            _paletteHelper.ReplaceAccentColor(swatch);
         }
     }
 }

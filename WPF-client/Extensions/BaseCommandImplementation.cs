@@ -1,50 +1,115 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace WPF_client.Extensions
 {
     public class BaseCommandImplementation : ICommand
     {
-        private readonly Action<object> _execute;
-        private readonly Func<object, bool> _canExecute;
+        #region Data
+        private readonly Action<object> _executeMethod;
+        private readonly Func<object, bool> _canExecuteMethod;
 
-        public BaseCommandImplementation(Action<object> execute) : this(execute, null)
+        private bool _isAutomaticRequeryDisabled = false;
+        private List<WeakReference> _canExecuteChangedHandlers;
+        #endregion
+
+        #region Constructors
+        public BaseCommandImplementation(Action<object> executeMethod) 
+            : this(executeMethod, null, false)
         {
         }
 
-        public BaseCommandImplementation(Action<object> execute, Func<object, bool> canExecute)
+        public BaseCommandImplementation(Action<object> executeMethod, Func<object, bool> canExecuteMethod) 
+            : this(executeMethod, canExecuteMethod, false)
         {
-            if (execute == null) throw new ArgumentNullException(nameof(execute));
+        }
 
-            _execute = execute;
-            _canExecute = canExecute ?? (x => true);
+        public BaseCommandImplementation(Action<object> executeMethod, Func<object, bool> canExecuteMethod, bool isAutomaticRequeryDisabled)
+        {
+            if (executeMethod == null)
+            {
+                throw new ArgumentNullException(nameof(executeMethod));
+            }
+
+            _executeMethod = executeMethod;
+            _canExecuteMethod = canExecuteMethod;
+            _isAutomaticRequeryDisabled = isAutomaticRequeryDisabled;
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary> Property to enable or disable CommandManager's automatic requery on this command </summary>
+        public bool IsAutomaticRequeryDisabled
+        {
+            get
+            {
+                return _isAutomaticRequeryDisabled;
+            }
+            set
+            {
+                if (_isAutomaticRequeryDisabled != value)
+                {
+                    if (value)
+                    {
+                        CommandManagerHelper.RemoveHandlersFromRequerySuggested(_canExecuteChangedHandlers);
+                    }
+                    else
+                    {
+                        CommandManagerHelper.AddHandlersToRequerySuggested(_canExecuteChangedHandlers);
+                    }
+                    _isAutomaticRequeryDisabled = value;
+                }
+            }
+        }
+
+        /// <summary> Raises the CanExecuteChaged event </summary>
+        public void RaiseCanExecuteChanged()
+        {
+            OnCanExecuteChanged();
+        }
+
+        /// <summary> Protected virtual method to raise CanExecuteChanged event </summary>
+        protected virtual void OnCanExecuteChanged()
+        {
+            CommandManagerHelper.CallWeakReferenceHandlers(_canExecuteChangedHandlers);
+        }
+        #endregion
+
+        #region ICommand Members
+        public void Execute(object parameter)
+        {
+            _executeMethod?.Invoke(parameter);
         }
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute(parameter);
-        }
-
-        public void Execute(object parameter)
-        {
-            _execute(parameter);
+            if (_canExecuteMethod != null)
+            {
+                return _canExecuteMethod(parameter);
+            }
+            return true;
         }
 
         public event EventHandler CanExecuteChanged
         {
             add
             {
-                CommandManager.RequerySuggested += value;
+                if (!_isAutomaticRequeryDisabled)
+                {
+                    CommandManager.RequerySuggested += value;
+                }
+                CommandManagerHelper.AddWeakReferenceHandler(ref _canExecuteChangedHandlers, value, 2);
             }
             remove
             {
-                CommandManager.RequerySuggested -= value;
+                if (!_isAutomaticRequeryDisabled)
+                {
+                    CommandManager.RequerySuggested -= value;
+                }
+                CommandManagerHelper.RemoveWeakReferenceHandler(_canExecuteChangedHandlers, value);
             }
         }
-
-        public void Refresh()
-        {
-            CommandManager.InvalidateRequerySuggested();
-        }
+        #endregion
     }
 }

@@ -79,7 +79,10 @@
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\BaseCommandImplementation.cs" />
+    <Compile Include="Extensions\CommandManagerHelper.cs" />
+    <Compile Include="Extensions\MapCommandAttribute.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\PaletteSelector.xaml.cs">
       <DependentUpon>PaletteSelector.xaml</DependentUpon>
     </Compile>
