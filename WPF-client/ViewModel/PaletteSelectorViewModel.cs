@@ -3,12 +3,14 @@ using System.Windows.Input;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using WPF_client.Extensions;
+using WPF_client.Utilities;
 
 namespace WPF_client.ViewModel
 {
     public class PaletteSelectorViewModel : ViewModelBase
     {
         public IEnumerable<Swatch> Swatches { get; }
+        public bool IsDarkThem { get; set; }
 
         private readonly PaletteHelper _paletteHelper;
 
@@ -16,6 +18,7 @@ namespace WPF_client.ViewModel
         public PaletteSelectorViewModel()
         {
             Swatches = new SwatchesProvider().Swatches;
+            IsDarkThem = ThemSettingsHandler.LoadSavedInstance().IsDarkThem;
 
             _paletteHelper = new PaletteHelper();
         }
@@ -26,6 +29,9 @@ namespace WPF_client.ViewModel
         private void ApplyBase(bool isDark)
         {
             _paletteHelper.SetLightDark(isDark);
+            var savedSettings = ThemSettingsHandler.LoadSavedInstance();
+            savedSettings.IsDarkThem = isDark;
+            ThemSettingsHandler.LoadNewInstance(savedSettings);
         }
 
         [MapCommand(nameof(ApplyPrimary))]
@@ -33,6 +39,9 @@ namespace WPF_client.ViewModel
         private void ApplyPrimary(Swatch swatch)
         {
             _paletteHelper.ReplacePrimaryColor(swatch);
+            var savedSettings = ThemSettingsHandler.LoadSavedInstance();
+            savedSettings.PrimaryThemColor = swatch.Name;
+            ThemSettingsHandler.LoadNewInstance(savedSettings);
         }
 
         [MapCommand(nameof(ApplyAccent))]
@@ -40,6 +49,9 @@ namespace WPF_client.ViewModel
         private void ApplyAccent(Swatch swatch)
         {
             _paletteHelper.ReplaceAccentColor(swatch);
+            var savedSettings = ThemSettingsHandler.LoadSavedInstance();
+            savedSettings.AccentThemColor = swatch.Name;
+            ThemSettingsHandler.LoadNewInstance(savedSettings);
         }
     }
 }

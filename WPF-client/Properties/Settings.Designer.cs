@@ -22,5 +22,16 @@ namespace WPF_client.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::WPF_client.Utilities.ThemSettings ThemSettings {
+            get {
+                return ((global::WPF_client.Utilities.ThemSettings)(this["ThemSettings"]));
+            }
+            set {
+                this["ThemSettings"] = value;
+            }
+        }
     }
 }

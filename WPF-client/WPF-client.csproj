@@ -81,6 +81,9 @@
     <Compile Include="Extensions\BaseCommandImplementation.cs" />
     <Compile Include="Extensions\CommandManagerHelper.cs" />
     <Compile Include="Extensions\MapCommandAttribute.cs" />
+    <Compile Include="Utilities\ThemSettings.cs" />
+    <Compile Include="Utilities\ExceptionLogger.cs" />
+    <Compile Include="Utilities\ThemSettingsHandler.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\PaletteSelector.xaml.cs">
