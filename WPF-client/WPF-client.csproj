@@ -84,8 +84,12 @@
     <Compile Include="Utilities\ThemSettings.cs" />
     <Compile Include="Utilities\ExceptionLogger.cs" />
     <Compile Include="Utilities\ThemSettingsHandler.cs" />
+    <Compile Include="ViewModel\MainChartViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\MainChart.xaml.cs">
+      <DependentUpon>MainChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PaletteSelector.xaml.cs">
       <DependentUpon>PaletteSelector.xaml</DependentUpon>
     </Compile>
@@ -100,6 +104,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -155,7 +163,9 @@
   <ItemGroup>
     <Resource Include="chart.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\DataSerialization\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

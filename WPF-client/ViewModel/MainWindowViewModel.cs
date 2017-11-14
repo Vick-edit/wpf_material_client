@@ -11,6 +11,7 @@ namespace WPF_client.ViewModel
         {
             MainMenuItems = new PageContentItem[]
             {
+                new PageContentItem("График", new MainChart { DataContext = new MainChartViewModel() }), 
                 new PageContentItem("Цветовая тема", new PaletteSelector { DataContext = new PaletteSelectorViewModel() }),
             };
         }
