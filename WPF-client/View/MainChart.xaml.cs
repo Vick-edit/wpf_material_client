@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts.Events;
+using WPF_client.ViewModel;
 
 namespace WPF_client.View
 {
@@ -24,6 +26,33 @@ namespace WPF_client.View
         {
             InitializeComponent();
             Background = Brushes.Transparent;
+        }
+
+        private void Axis_OnRangeChanged(RangeChangedEventArgs eventargs)
+        {
+            var vm = (MainChartViewModel)DataContext;
+
+            var currentRange = eventargs.Range;
+
+            if (currentRange < TimeSpan.TicksPerDay * 2)
+            {
+                vm.Formatter = x => new DateTime((long)x).ToString("t");
+                return;
+            }
+
+            if (currentRange < TimeSpan.TicksPerDay * 60)
+            {
+                vm.Formatter = x => new DateTime((long)x).ToString("dd MMM yy");
+                return;
+            }
+
+            if (currentRange < TimeSpan.TicksPerDay * 540)
+            {
+                vm.Formatter = x => new DateTime((long)x).ToString("MMM yy");
+                return;
+            }
+
+            vm.Formatter = x => new DateTime((long)x).ToString("yyyy");
         }
     }
 }

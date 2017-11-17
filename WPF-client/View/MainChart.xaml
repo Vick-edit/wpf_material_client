@@ -10,7 +10,72 @@
       d:DesignHeight="300" d:DesignWidth="300" Background="White" 
       d:DataContext="{d:DesignInstance viewModel:MainChartViewModel}">
 
+    <UserControl.DataContext>
+        <viewModel:MainChartViewModel></viewModel:MainChartViewModel>
+    </UserControl.DataContext>
+
     <Grid>
-        <liveChart:CartesianChart Series="{Binding DataCollection}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"></TextBlock>
+        <liveChart:CartesianChart Grid.Row="1" Zoom="X" DisableAnimations="True">
+            <liveChart:CartesianChart.Resources>
+                <Style TargetType="liveChart:Separator">
+                    <Setter Property="StrokeThickness" Value="2.5"></Setter>
+                    <Setter Property="Stroke" Value="#E7E7E7"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="AxisOrientation" Value="X">
+                            <Setter Property="IsEnabled" Value="False"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </liveChart:CartesianChart.Resources>
+            <liveChart:CartesianChart.Series>
+                <liveChart:LineSeries StrokeThickness="0" 
+                                    Values="{Binding Values}"
+                                    Fill="#2194F1"
+                                    AreaLimit="0"
+                                    PointGeometry="{x:Null}"/>
+            </liveChart:CartesianChart.Series>
+            <liveChart:CartesianChart.AxisX>
+                <liveChart:Axis LabelFormatter="{Binding Formatter}" RangeChanged="Axis_OnRangeChanged" 
+                                MinValue="{Binding From, Mode=TwoWay}" MaxValue="{Binding To, Mode=TwoWay}"
+                                Separator="{x:Static liveChart:DefaultAxes.CleanSeparator}"/>
+            </liveChart:CartesianChart.AxisX>
+        </liveChart:CartesianChart>
+        <liveChart:CartesianChart Grid.Row="2" DisableAnimations="True" 
+                                    ScrollMode="X" 
+                                    ScrollHorizontalFrom="{Binding From, Mode=TwoWay}"
+                                    ScrollHorizontalTo="{Binding To, Mode=TwoWay}"
+                                    ScrollBarFill="#25303030"
+                                    DataTooltip="{x:Null}"
+                                    Hoverable="False"
+                                    Margin="20 10">
+            <liveChart:CartesianChart.Resources>
+                <Style TargetType="liveChart:Separator">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </Style>
+            </liveChart:CartesianChart.Resources>
+            <liveChart:CartesianChart.Series>
+                <liveChart:LineSeries Values="{Binding Values}"
+                                    Fill="Silver"
+                                    StrokeThickness="0"
+                                    PointGeometry="{x:Null}"
+                                    AreaLimit="0"/>
+            </liveChart:CartesianChart.Series>
+            <liveChart:CartesianChart.AxisX>
+                <liveChart:Axis IsMerged="True" 
+                                  LabelFormatter="{Binding Formatter, Mode=OneTime}" 
+                                  Foreground="#98000000"
+                                  FontSize="22"
+                                  FontWeight="UltraBold"/>
+            </liveChart:CartesianChart.AxisX>
+            <liveChart:CartesianChart.AxisY>
+                <liveChart:Axis ShowLabels="False" />
+            </liveChart:CartesianChart.AxisY>
+        </liveChart:CartesianChart>
     </Grid>
 </UserControl>
