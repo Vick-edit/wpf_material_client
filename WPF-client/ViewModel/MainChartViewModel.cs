@@ -6,15 +6,29 @@ using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
+using WPF_client.Extensions;
 
 namespace WPF_client.ViewModel
 {
-    public class MainChartViewModel
+    public class MainChartViewModel : SimpleNotifyPropertyChanged, INotifyPropertyChanged
     {
         public object Mapper { get; set; }
-        public Func<double, string> Formatter { get; set; }
-        public double From { get; set; }
-        public double To { get; set; }
+
+        public Func<double, string> Formatter
+        {
+            get { return Get<Func<double, string>>(); }
+            set { Set(value); }
+        }
+        public double From
+        {
+            get { return Get<double>(); }
+            set { Set(value); }
+        }
+        public double To
+        {
+            get { return Get<double>(); }
+            set { Set(value); }
+        }
 
         public MainChartViewModel()
         {
