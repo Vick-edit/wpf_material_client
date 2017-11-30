@@ -42,6 +42,7 @@
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis LabelFormatter="{Binding Formatter}" RangeChanged="Axis_OnRangeChanged" 
+                                PreviewRangeChanged="Axis_OnPreviewRangeChanged" MaxRange="{Binding MaxRange, Mode=OneWay}"
                                 MinValue="{Binding From, Mode=TwoWay}" MaxValue="{Binding To, Mode=TwoWay}"
                                 Separator="{x:Static liveChart:DefaultAxes.CleanSeparator}"/>
             </liveChart:CartesianChart.AxisX>

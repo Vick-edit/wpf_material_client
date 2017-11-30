@@ -30,29 +30,40 @@ namespace WPF_client.View
 
         private void Axis_OnRangeChanged(RangeChangedEventArgs eventargs)
         {
-            var vm = (MainChartViewModel)DataContext;
+            var viewModel = (MainChartViewModel)DataContext;
 
             var currentRange = eventargs.Range;
 
             if (currentRange < TimeSpan.TicksPerDay * 2)
             {
-                vm.Formatter = x => new DateTime((long)x).ToString("t");
+                viewModel.Formatter = x => new DateTime((long)x).ToString("t");
                 return;
             }
 
             if (currentRange < TimeSpan.TicksPerDay * 60)
             {
-                vm.Formatter = x => new DateTime((long)x).ToString("dd MMM yy");
+                viewModel.Formatter = x => new DateTime((long)x).ToString("dd MMM yy");
                 return;
             }
 
             if (currentRange < TimeSpan.TicksPerDay * 540)
             {
-                vm.Formatter = x => new DateTime((long)x).ToString("MMM yy");
+                viewModel.Formatter = x => new DateTime((long)x).ToString("MMM yy");
                 return;
             }
 
-            vm.Formatter = x => new DateTime((long)x).ToString("yyyy");
+            viewModel.Formatter = x => new DateTime((long)x).ToString("yyyy");
+        }
+
+        private void Axis_OnPreviewRangeChanged(PreviewRangeChangedEventArgs e)
+        {
+            var vm = (MainChartViewModel)DataContext;
+
+            var percent = vm.MaxRange*0.3;
+            if (e.PreviewMinValue < vm.MinValueX - percent)
+                e.Cancel = true;
+            if (e.PreviewMaxValue > vm.MaxValueX + percent)
+                e.Cancel = true;
         }
     }
 }

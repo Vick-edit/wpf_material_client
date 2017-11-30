@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using LiveCharts;
 using LiveCharts.Defaults;
@@ -19,6 +20,12 @@ namespace WPF_client.ViewModel
             get { return Get<Func<double, string>>(); }
             set { Set(value); }
         }
+
+        public double MaxRange { get { return (MaxValueX - MinValueX) *1.1; } }
+        public double MinValueX { get { return Values.Min(x => x.DateTime).Ticks; } }
+        public double MaxValueX { get { return Values.Max(x => x.DateTime).Ticks; } }
+
+
         public double From
         {
             get { return Get<double>(); }
