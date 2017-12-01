@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using MaterialDesignColors;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 
 namespace WPF_client.Utilities
 {

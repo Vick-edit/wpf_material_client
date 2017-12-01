@@ -78,11 +78,10 @@
     <Compile Include="Elements\Palette.xaml.cs">
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\BaseCommandImplementation.cs" />
-    <Compile Include="Extensions\BaseNotifyPropertyChanged.cs" />
-    <Compile Include="Extensions\SimpleNotifyPropertyChanged.cs" />
-    <Compile Include="Extensions\CommandManagerHelper.cs" />
-    <Compile Include="Extensions\MapCommandAttribute.cs" />
+    <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
+    <Compile Include="Utilities\WPF\NotifyPropertyChanged\BaseNotifyPropertyChanged.cs" />
+    <Compile Include="Utilities\WPF\Commands\CommandManagerHelper.cs" />
+    <Compile Include="Utilities\WPF\Commands\MapCommandAttribute.cs" />
     <Compile Include="Utilities\ThemSettings.cs" />
     <Compile Include="Utilities\ExceptionLogger.cs" />
     <Compile Include="Utilities\ThemSettingsHandler.cs" />
@@ -125,7 +124,7 @@
     <Compile Include="Elements\SampleMessageDialog.xaml.cs">
       <DependentUpon>SampleMessageDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="Utilities\WPF\NotifyPropertyChanged\NotifyPropertyChangedExtension.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

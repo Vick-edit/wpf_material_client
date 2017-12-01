@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WPF_client.Extensions
+namespace WPF_client.Utilities.WPF.NotifyPropertyChanged
 {
-    public abstract class SimpleNotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class BaseNotifyPropertyChanged : INotifyPropertyChanged
     {
         private readonly Dictionary<string, object> _valueStore = new Dictionary<string, object>();
 
@@ -18,6 +18,11 @@ namespace WPF_client.Extensions
                 throw new ArgumentNullException(nameof(propertyName));
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected Action<PropertyChangedEventArgs> RaisePropertyChanged()
+        {
+            return args => PropertyChanged?.Invoke(this, args);
         }
 
 

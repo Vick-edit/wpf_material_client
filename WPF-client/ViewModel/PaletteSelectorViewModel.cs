@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
-using WPF_client.Extensions;
 using WPF_client.Utilities;
+using WPF_client.Utilities.WPF.Commands;
 
 namespace WPF_client.ViewModel
 {

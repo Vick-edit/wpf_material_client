@@ -1,16 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using WPF_client.Extensions;
+using WPF_client.Utilities.WPF.Commands;
+using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.ViewModel
 {
     /// <summary> Базовый класс - контейнер для всех VM </summary>
-    public abstract class ViewModelBase
+    public abstract class ViewModelBase : BaseNotifyPropertyChanged, INotifyPropertyChanged
     {
         protected ViewModelBase()
         {

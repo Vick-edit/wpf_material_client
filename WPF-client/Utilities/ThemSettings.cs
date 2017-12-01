@@ -1,5 +1,4 @@
 ﻿using System;
-using MaterialDesignThemes.Wpf;
 
 namespace WPF_client.Utilities
 {

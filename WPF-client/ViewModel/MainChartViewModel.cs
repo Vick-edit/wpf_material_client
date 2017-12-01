@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using LiveCharts;
 using LiveCharts.Defaults;
-using LiveCharts.Helpers;
-using LiveCharts.Wpf;
-using WPF_client.Extensions;
+using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.ViewModel
 {
-    public class MainChartViewModel : SimpleNotifyPropertyChanged, INotifyPropertyChanged
+    public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged
     {
         public object Mapper { get; set; }
 

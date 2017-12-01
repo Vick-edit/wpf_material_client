@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using WPF_client.Extensions;
+using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.Elements
 {

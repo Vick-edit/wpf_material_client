@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace WPF_client.Extensions
+namespace WPF_client.Utilities.WPF.Commands
 {
     public class BaseCommandImplementation : ICommand
     {
