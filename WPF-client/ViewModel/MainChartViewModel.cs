@@ -9,18 +9,55 @@ namespace WPF_client.ViewModel
 {
     public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged
     {
-        public object Mapper { get; set; }
+        private const double RangeMaxScale = 1.1;
+        private readonly double StartScale;
+
+        public MainChartViewModel(ChartValues<DateTimePoint> chartValues)
+        {
+            //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
+            StartScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
+
+            Values = chartValues;
+            UpdateAxisParameters();
+        }
+
+
+        #region ViewModelFields
+        public double MaxRange { get { return (MaxValueX - MinValueX) * RangeMaxScale; } }
+        public double MinRange
+        {
+            get
+            {
+                var minValue = MinValueX;
+                var nexValue = Values.Where(x => x.DateTime.Ticks > minValue)
+                    .Min(x => x.DateTime).Ticks;
+                return (nexValue - minValue) * 2;
+            }
+        }
+
+        public long MaxValueX { get { return Values.Max(x => x.DateTime).Ticks; } }
+        public long MinValueX { get { return Values.Min(x => x.DateTime).Ticks; } }
+
+
+        public ChartValues<DateTimePoint> Values
+        {
+            get { return Get<ChartValues<DateTimePoint>>(); }
+            set
+            {
+                Set(value);
+                UpdateAxisParameters();
+                OnPropertyChanged(nameof(MaxRange));
+                OnPropertyChanged(nameof(MinRange));
+                OnPropertyChanged(nameof(MaxValueX));
+                OnPropertyChanged(nameof(MinValueX));
+            }
+        }
 
         public Func<double, string> Formatter
         {
             get { return Get<Func<double, string>>(); }
             set { Set(value); }
         }
-
-        public double MaxRange { get { return (MaxValueX - MinValueX) *1.1; } }
-        public double MinValueX { get { return Values.Min(x => x.DateTime).Ticks; } }
-        public double MaxValueX { get { return Values.Max(x => x.DateTime).Ticks; } }
-
 
         public double From
         {
@@ -32,34 +69,40 @@ namespace WPF_client.ViewModel
             get { return Get<double>(); }
             set { Set(value); }
         }
+        #endregion
 
-        public MainChartViewModel()
+        /// <summary> Обновить подписи по оси X в соответствии с масштабом </summary>
+        public void UpdateFormatter(double currentRange)
         {
-            Values = new ChartValues<DateTimePoint>();
-
-            var trend = 50d;
-            var random = new Random();
-            var timeStep = DateTime.Now;
-            for (var i = 0; i < 500; i++)
+            if (currentRange < TimeSpan.TicksPerDay * 2)
             {
-                timeStep = timeStep.AddHours(1);
-                Values.Add(new DateTimePoint(timeStep.AddDays(i*10), trend));
-
-                if (random.NextDouble() > 0.4)
-                {
-                    trend += random.NextDouble() * 10;
-                }
-                else
-                {
-                    trend -= random.NextDouble() * 10;
-                }
+                Formatter = x => new DateTime((long)x).ToString("t");
+                return;
             }
-
+            if (currentRange < TimeSpan.TicksPerDay * 60)
+            {
+                Formatter = x => new DateTime((long)x).ToString("dd MMM yy");
+                return;
+            }
+            if (currentRange < TimeSpan.TicksPerDay * 540)
+            {
+                Formatter = x => new DateTime((long)x).ToString("MMM yy");
+                return;
+            }
             Formatter = x => new DateTime((long)x).ToString("yyyy");
-            From = DateTime.Now.AddHours(10000).Ticks;
-            To = DateTime.Now.AddHours(90000).Ticks;
         }
 
-        public ChartValues<DateTimePoint> Values { get; set; }
+        private void UpdateAxisParameters()
+        {
+            if (!Values.Any())
+                throw new Exception("Не заданна коллеция зачений графика");
+            if (Values.Count < 2)
+                throw new Exception("Размер коллекции менее двух значений не может быть корректно отображен");
+
+            From = MinValueX;
+            To = MinValueX + (MaxValueX - MinValueX) * StartScale;
+
+            UpdateFormatter(To - From);
+        }
     }
 }

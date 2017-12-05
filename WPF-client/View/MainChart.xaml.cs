@@ -17,41 +17,33 @@ namespace WPF_client.View
             Background = Brushes.Transparent;
         }
 
+
+        private MainChartViewModel ExtractViewModel()
+        {
+            var viewModel = DataContext as MainChartViewModel;
+            if (viewModel == null)
+                throw new Exception("Задан неверный контекст модели");
+            return viewModel;
+        }
+
         private void Axis_OnRangeChanged(RangeChangedEventArgs eventargs)
         {
-            var viewModel = (MainChartViewModel)DataContext;
-
-            var currentRange = eventargs.Range;
-
-            if (currentRange < TimeSpan.TicksPerDay * 2)
-            {
-                viewModel.Formatter = x => new DateTime((long)x).ToString("t");
-                return;
-            }
-
-            if (currentRange < TimeSpan.TicksPerDay * 60)
-            {
-                viewModel.Formatter = x => new DateTime((long)x).ToString("dd MMM yy");
-                return;
-            }
-
-            if (currentRange < TimeSpan.TicksPerDay * 540)
-            {
-                viewModel.Formatter = x => new DateTime((long)x).ToString("MMM yy");
-                return;
-            }
-
-            viewModel.Formatter = x => new DateTime((long)x).ToString("yyyy");
+            var viewModel = ExtractViewModel();
+            viewModel.UpdateFormatter(eventargs.Range);
         }
 
         private void Axis_OnPreviewRangeChanged(PreviewRangeChangedEventArgs e)
         {
-            var vm = (MainChartViewModel)DataContext;
+            //TODO: Решить проблему c ограничением диапозона на шкале. Он не может быть ограничеен при изменении со скролбара
+            return;
 
-            var percent = vm.MaxRange*0.3;
-            if (e.PreviewMinValue < vm.MinValueX - percent)
+            //TODO: Решить проблему, что при потере фокуса панинг работает некорректно
+            var viewModel = ExtractViewModel();
+
+            var percent = viewModel.MaxRange*0.3;
+            if (e.PreviewMinValue < viewModel.MinValueX - percent)
                 e.Cancel = true;
-            if (e.PreviewMaxValue > vm.MaxValueX + percent)
+            if (e.PreviewMaxValue > viewModel.MaxValueX + percent)
                 e.Cancel = true;
         }
     }

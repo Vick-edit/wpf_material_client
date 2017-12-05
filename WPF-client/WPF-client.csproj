@@ -88,6 +88,8 @@
     <Compile Include="ViewModel\MainChartViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewProduction\Interfaces\IViewFactory.cs" />
+    <Compile Include="ViewProduction\MainChartVMFactory.cs" />
     <Compile Include="View\MainChart.xaml.cs">
       <DependentUpon>MainChart.xaml</DependentUpon>
     </Compile>

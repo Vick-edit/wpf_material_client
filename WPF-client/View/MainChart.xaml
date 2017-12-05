@@ -10,10 +10,6 @@
       d:DesignHeight="300" d:DesignWidth="300" Background="White" 
       d:DataContext="{d:DesignInstance viewModel:MainChartViewModel}">
 
-    <UserControl.DataContext>
-        <viewModel:MainChartViewModel></viewModel:MainChartViewModel>
-    </UserControl.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -21,7 +17,7 @@
             <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"></TextBlock>
-        <liveChart:CartesianChart Grid.Row="1" Zoom="X" DisableAnimations="True">
+        <liveChart:CartesianChart x:Name="ForecastChart" Grid.Row="1" Zoom="X">
             <liveChart:CartesianChart.Resources>
                 <Style TargetType="liveChart:Separator">
                     <Setter Property="StrokeThickness" Value="2.5"></Setter>
@@ -34,16 +30,22 @@
                 </Style>
             </liveChart:CartesianChart.Resources>
             <liveChart:CartesianChart.Series>
-                <liveChart:LineSeries StrokeThickness="0" 
-                                    Values="{Binding Values}"
-                                    Fill="#2194F1"
-                                    AreaLimit="0"
-                                    PointGeometry="{x:Null}"/>
+                <liveChart:LineSeries   Title="Прогноз:"
+                                        StrokeThickness="2" 
+                                        Stroke="#1c7dcc"
+                                        Values="{Binding Values}"
+                                        Fill="#2194F1"
+                                        AreaLimit="0"
+                                        PointGeometrySize="7"/>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>
-                <liveChart:Axis LabelFormatter="{Binding Formatter}" RangeChanged="Axis_OnRangeChanged" 
-                                PreviewRangeChanged="Axis_OnPreviewRangeChanged" MaxRange="{Binding MaxRange, Mode=OneWay}"
-                                MinValue="{Binding From, Mode=TwoWay}" MaxValue="{Binding To, Mode=TwoWay}"
+                <liveChart:Axis LabelFormatter="{Binding Formatter}" 
+                                RangeChanged="Axis_OnRangeChanged" 
+                                PreviewRangeChanged="Axis_OnPreviewRangeChanged" 
+                                MinRange="{Binding MinRange, Mode=OneWay}"
+                                MaxRange="{Binding MaxRange, Mode=OneWay}"
+                                MinValue="{Binding From, Mode=TwoWay}" 
+                                MaxValue="{Binding To, Mode=TwoWay}"
                                 Separator="{x:Static liveChart:DefaultAxes.CleanSeparator}"/>
             </liveChart:CartesianChart.AxisX>
         </liveChart:CartesianChart>
