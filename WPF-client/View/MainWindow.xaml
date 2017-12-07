@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:elements="clr-namespace:WPF_client.Elements"
-        xmlns:viewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.MainWindow"
+        xmlns:viewModel="clr-namespace:WPF_client.ViewModel" x:Class="WPF_client.View.MainWindow"
         mc:Ignorable="d"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"  
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"

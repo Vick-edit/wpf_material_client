@@ -6,7 +6,7 @@ using MaterialDesignThemes.Wpf;
 using WPF_client.Elements;
 using WPF_client.ViewModel;
 
-namespace WPF_client
+namespace WPF_client.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

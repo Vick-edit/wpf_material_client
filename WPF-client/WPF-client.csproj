@@ -76,6 +76,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DatePointToStringCoverter.cs" />
+    <Compile Include="DomainServices\ConnectionProviders\ForecastProvider.cs" />
+    <Compile Include="DomainServices\ConnectionProviders\Interfaces\IForecastProvider.cs" />
+    <Compile Include="DomainServices\Events\ConnectionEventsDelegates.cs" />
+    <Compile Include="DomainServices\Events\ForecastEventsDelegates.cs" />
+    <Compile Include="Domain\DomainModels\Forecast.cs" />
     <Compile Include="Elements\DateTooltip.xaml.cs">
       <DependentUpon>DateTooltip.xaml</DependentUpon>
     </Compile>
@@ -175,7 +180,7 @@
     <Resource Include="chart.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Domain\DataSerialization\" />
+    <Folder Include="DomainServices\DataSerialization\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
