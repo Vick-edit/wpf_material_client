@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
+﻿using NUnit.Framework;
 using WPF_client.DomainServices.JsonDataSerialization;
 
 namespace WPF_client.Test.DomainServicesTests.JsonDataSerializationTests

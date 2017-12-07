@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServicesTests\JsonDataSerializationTests\ForecastDeserializerTest.cs" />
+    <Compile Include="Domain\ServerConnection\ForecastConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

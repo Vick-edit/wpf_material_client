@@ -88,6 +88,8 @@
     <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonData.cs" />
     <Compile Include="Domain\DomainModels\Forecast.cs" />
+    <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
+    <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />
     <Compile Include="Elements\DateTooltip.xaml.cs">
       <DependentUpon>DateTooltip.xaml</DependentUpon>
     </Compile>

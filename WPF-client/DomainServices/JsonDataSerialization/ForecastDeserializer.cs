@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.JsonDataSerialization.MapingObjects;
 
