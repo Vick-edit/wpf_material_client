@@ -18,7 +18,7 @@
             <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"></TextBlock>
-        <liveChart:CartesianChart x:Name="ForecastChart" Grid.Row="1" Zoom="X">
+        <liveChart:CartesianChart x:Name="ForecastChart" Grid.Row="1" Zoom="X" DisableAnimations="True">
             <liveChart:CartesianChart.Resources>
                 <Style TargetType="liveChart:Separator">
                     <Setter Property="StrokeThickness" Value="2.5"></Setter>

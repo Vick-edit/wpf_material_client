@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using LiveCharts;
 using LiveCharts.Defaults;
+using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.ViewModel
@@ -12,13 +13,21 @@ namespace WPF_client.ViewModel
         private const double RangeMaxScale = 1.1;
         private readonly double StartScale;
 
-        public MainChartViewModel(ChartValues<DateTimePoint> chartValues)
+        public MainChartViewModel(IForecastProvider forecastProvider)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
             StartScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
 
+            forecastProvider.StartWatchingForUpdates();
+            var forecasts = forecastProvider.Forecasts;
+            var chartValues = new ChartValues<DateTimePoint>();
+            for (var i = 0; i < forecasts.Count && i < 1000; i++)
+            {
+                var forecast = forecasts[i];
+                chartValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
+            }
+
             Values = chartValues;
-            UpdateAxisParameters();
         }
 
 
