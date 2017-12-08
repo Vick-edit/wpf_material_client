@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using LiveCharts.Events;
+using WPF_client.Extensions;
 using WPF_client.ViewModel;
 
 namespace WPF_client.View
@@ -15,6 +16,7 @@ namespace WPF_client.View
         {
             InitializeComponent();
             Background = Brushes.Transparent;
+            this.HandleDisposableViewModel();
         }
 
 

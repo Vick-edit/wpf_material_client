@@ -222,3 +222,4 @@ RemoteServr\bin\Debug\Temp\
 *.dmp
 /log.txt
 /.vs/config/applicationhost.config
+_log.txt

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using WPF_client.Domain.DomainModels;
+using WPF_client.DomainServices.Exceptions;
 using WPF_client.DomainServices.JsonDataSerialization;
 
 namespace WPF_client.Domain.ServerConnection
@@ -31,14 +33,21 @@ namespace WPF_client.Domain.ServerConnection
         private string GetJsonForecast()
         {
 #if DEBUG
-            var exePath = System.AppDomain.CurrentDomain.BaseDirectory;
-            var rootFolder = Directory.GetParent(exePath).Parent.Parent.Parent.FullName;
-            var jsonFile = Path.Combine(rootFolder, "WPF-client.Test", "TestData", "archive.json");
+            var randomise = new Random(469164114);
+            var newValue = randomise.Next(0, 2);
+            if (newValue >= 1)
+            {
+                var exePath = System.AppDomain.CurrentDomain.BaseDirectory;
+                var rootFolder = Directory.GetParent(exePath).Parent.Parent.Parent.FullName;
+                var jsonFile = Path.Combine(rootFolder, "WPF-client.Test", "TestData", "archive.json");
 
-            var jsonData = File.ReadAllText(jsonFile);
-            return jsonData;
+                var jsonData = File.ReadAllText(jsonFile);
+                return jsonData;
+            }
+
+            throw  new ConnectionException("local");
 #else
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
 #endif
         }
     }

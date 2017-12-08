@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using WPF_client.Domain.DomainModels;
 using WPF_client.Domain.ServerConnection;
 using WPF_client.DomainServices.Events;
 using WPF_client.DomainServices.Exceptions;
 using WPF_client.Utilities;
+using Timer = System.Timers.Timer;
 
 namespace WPF_client.DomainServices.ConnectionProviders
 {
@@ -14,36 +16,72 @@ namespace WPF_client.DomainServices.ConnectionProviders
         public event ForecastConnectionError OnConnectionLost;
         public event ForecastConnectionSuccess OnConnectionRestored;
 
-        public IList<Forecast> Forecasts { get; private set; }
+        private ReaderWriterLockSlim forecastsLock = new ReaderWriterLockSlim();
+        private IList<Forecast> _forecasts;
+        public IList<Forecast> Forecasts
+        {
+            get
+            {
+                forecastsLock.EnterReadLock();
+                try
+                {
+                    return _forecasts;
+                }
+                finally 
+                {
+                    forecastsLock.ExitReadLock();
+                }
+            }
+            private set
+            {
+                forecastsLock.EnterWriteLock();
+                try
+                {
+                    _forecasts = value;
+                }
+                finally
+                {
+                    forecastsLock.ExitWriteLock();
+                }
+            }
+        }
 
         private readonly IForecastConnection _forecastConnection;
-        private readonly DateTime _updatePeriod;
+        private readonly TimeSpan _retryTimout;
+        private readonly TimeSpan _updatePeriod;
+
+        private readonly Timer _refreshTimer;
+        private readonly Timer _reconnectTimer;
 
 
-        public ForecastProvider(IForecastConnection forecastConnection, DateTime updatePeriod)
+        public ForecastProvider(IForecastConnection forecastConnection, TimeSpan updatePeriod)
         {
             _forecastConnection = forecastConnection;
+            _retryTimout = TimeSpan.FromSeconds(15);
             _updatePeriod = updatePeriod;
+
+            _refreshTimer = new Timer(_updatePeriod.TotalMilliseconds);
+            _reconnectTimer.Elapsed += (s, ea) => RefreshForecasts();
+
+            _reconnectTimer = new Timer(_retryTimout.TotalMilliseconds);
+            _reconnectTimer.Elapsed += (s, ea) => RefreshConnection();
         }
 
 
         public void StartWatchingForUpdates()
         {
-#if DEBUG
-            RefreshForecasts();
-#else
-            throw new System.NotImplementedException();
-#endif
+            _refreshTimer.Start();
         }
 
         public void StopWatchingForUpdates()
         {
-            throw new System.NotImplementedException();
+            _refreshTimer.Stop();
+            _reconnectTimer.Stop();
         }
 
 
         //Получить свежие данные с сервера
-        private void RefreshForecasts()
+        private void RefreshForecasts(bool handleConnecError = true)
         {
             try
             {
@@ -52,9 +90,39 @@ namespace WPF_client.DomainServices.ConnectionProviders
             }
             catch (ConnectionException e)
             {
-                ExceptionLogger.Log(e);
-                OnConnectionLost?.Invoke(this, e);
+                if (handleConnecError)
+                {
+                    ExceptionLogger.Log(e);
+                    OnConnectionLost?.Invoke(this, e);
+                    _reconnectTimer.Start();
+                }
+                else
+                {
+                    throw;
+                }
             }
+        }
+
+        //Востановить соединение с сервером
+        private void RefreshConnection()
+        {
+            try
+            {
+                RefreshForecasts(false);
+                _reconnectTimer.Stop();
+                OnConnectionRestored?.Invoke(this, "Подключение востановленно");
+            }
+            catch (ConnectionException e)
+            {
+                ExceptionLogger.Log(e);
+            }
+        }
+
+
+        public void Dispose()
+        {
+            _refreshTimer?.Dispose();
+            _reconnectTimer?.Dispose();
         }
     }
 }

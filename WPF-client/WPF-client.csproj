@@ -97,6 +97,7 @@
     <Compile Include="Elements\Palette.xaml.cs">
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Utilities\WPF\Commands\CommandManagerHelper.cs" />

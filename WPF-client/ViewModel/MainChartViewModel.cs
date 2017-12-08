@@ -8,18 +8,21 @@ using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.ViewModel
 {
-    public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged
+    public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged, IDisposable
     {
         private const double RangeMaxScale = 1.1;
-        private readonly double StartScale;
+        private readonly double _startScale;
+
+        private readonly IForecastProvider _forecastProvider;
 
         public MainChartViewModel(IForecastProvider forecastProvider)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
-            StartScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
+            _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
 
-            forecastProvider.StartWatchingForUpdates();
-            var forecasts = forecastProvider.Forecasts;
+            _forecastProvider = forecastProvider;
+            _forecastProvider.StartWatchingForUpdates();
+            var forecasts = _forecastProvider.Forecasts;
             var chartValues = new ChartValues<DateTimePoint>();
             for (var i = 0; i < forecasts.Count && i < 1000; i++)
             {
@@ -109,9 +112,15 @@ namespace WPF_client.ViewModel
                 throw new Exception("Размер коллекции менее двух значений не может быть корректно отображен");
 
             From = MinValueX;
-            To = MinValueX + (MaxValueX - MinValueX) * StartScale;
+            To = MinValueX + (MaxValueX - MinValueX) * _startScale;
 
             UpdateFormatter(To - From);
+        }
+
+
+        public void Dispose()
+        {
+            _forecastProvider?.Dispose();
         }
     }
 }

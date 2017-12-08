@@ -16,7 +16,7 @@ namespace WPF_client.ViewProduction
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
-            var forecastConnetionProvider = new ForecastProvider(forecastConnection, DateTime.Now);
+            var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
 
             return new MainChart
             {
@@ -29,7 +29,7 @@ namespace WPF_client.ViewProduction
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
-            var forecastConnetionProvider = new ForecastProvider(forecastConnection, DateTime.Now);
+            var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
 
             return new MainChart
             {
@@ -42,7 +42,7 @@ namespace WPF_client.ViewProduction
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
-            var forecastConnetionProvider = new ForecastProvider(forecastConnection, DateTime.Now);
+            var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(15));
 
             return new MainChart
             {
