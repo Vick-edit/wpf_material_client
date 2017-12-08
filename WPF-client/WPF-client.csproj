@@ -91,6 +91,9 @@
     <Compile Include="Domain\DomainModels\Forecast.cs" />
     <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
     <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />
+    <Compile Include="Elements\ConnectionError.xaml.cs">
+      <DependentUpon>ConnectionError.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\DateTooltip.xaml.cs">
       <DependentUpon>DateTooltip.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,10 @@
     <Compile Include="View\PaletteSelector.xaml.cs">
       <DependentUpon>PaletteSelector.xaml</DependentUpon>
     </Compile>
+    <Page Include="Elements\ConnectionError.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Elements\DateTooltip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

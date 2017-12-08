@@ -33,7 +33,7 @@ namespace WPF_client.Domain.ServerConnection
         private string GetJsonForecast()
         {
 #if DEBUG
-            var randomise = new Random(469164114);
+            var randomise = new Random();
             var newValue = randomise.Next(0, 2);
             if (newValue >= 1)
             {

@@ -26,6 +26,8 @@ namespace WPF_client.Utilities.WPF.NotifyPropertyChanged
         }
 
 
+        protected bool RaiseNotInitializedException = true;
+
         protected T Get<T>([CallerMemberName]string propertyName = null)
         {
             if (string.IsNullOrEmpty(propertyName))
@@ -33,7 +35,11 @@ namespace WPF_client.Utilities.WPF.NotifyPropertyChanged
 
             object value = null;
             if (!_valueStore.TryGetValue(propertyName, out value))
-                throw new ArgumentNullException(propertyName);
+                if (RaiseNotInitializedException)
+                    throw new ArgumentNullException(propertyName);
+                else
+                    value = default(T);
+
 
             return (T)value;
         }

@@ -20,7 +20,7 @@ namespace WPF_client.ViewProduction
 
             return new MainChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider)
+                DataContext = new MainChartViewModel(forecastConnetionProvider, TimeSpan.FromDays(30))
             };
         }
 
@@ -33,7 +33,7 @@ namespace WPF_client.ViewProduction
 
             return new MainChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider)
+                DataContext = new MainChartViewModel(forecastConnetionProvider, TimeSpan.FromDays(7))
             };
         }
 
@@ -46,7 +46,7 @@ namespace WPF_client.ViewProduction
 
             return new MainChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider)
+                DataContext = new MainChartViewModel(forecastConnetionProvider, TimeSpan.FromDays(1))
             };
         }
 

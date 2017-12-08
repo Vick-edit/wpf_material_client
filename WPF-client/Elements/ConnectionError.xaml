@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="WPF_client.Elements.ConnectionError"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF_client.Elements"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="550" Background="White" MinWidth="550" MinHeight="250">
+
+    <Grid Width="400" 
+              Height="200" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel
+                        Margin="0,0,0,0"
+                        Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <materialDesign:PackIcon Kind="CloseNetwork" 
+                                             Width="34" 
+                                             Height="Auto"
+                                             Margin="-49, 0, 15, 0"/>
+                <TextBlock x:Name="MainMassage" 
+                           Style="{StaticResource MaterialDesignSubheadingTextBlock}" VerticalAlignment="Bottom">
+                    Потеряна связь с сервером.
+                </TextBlock>
+            </StackPanel>
+            <TextBlock x:Name="SecondMassage" 
+                           Style="{StaticResource MaterialDesignSubheadingTextBlock}" 
+                           VerticalAlignment="Top" 
+                           HorizontalAlignment="Center"
+                           Margin="0, 15">
+                    Пытаемся восстановить соединение…
+            </TextBlock>
+        </StackPanel>
+        <ContentControl Grid.Row="1" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center">
+            <ProgressBar IsIndeterminate="True" 
+                             Height="10" 
+                             VerticalAlignment="Center" 
+                             Margin="15,0"/>
+        </ContentControl>
+
+    </Grid>
+</UserControl>
+

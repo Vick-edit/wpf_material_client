@@ -23,10 +23,6 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Window.DataContext>
-        <viewModel:MainWindowViewModel/>
-    </Window.DataContext>
-
     <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
         <materialDesign:DrawerHost x:Name="LeftMenuRoot" IsLeftDrawerOpen="{Binding IsChecked, ElementName=MainMenuToggleButton}">
             <materialDesign:DrawerHost.LeftDrawerContent>
@@ -70,7 +66,8 @@
                         </materialDesign:ColorZone>
                     </StackPanel>
                 </elements:LeftMenuContentWrapper.TopElementContent>
-                <Grid>
+                <materialDesign:DialogHost Identifier="ConnectionDialog">
+                    <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
@@ -84,6 +81,7 @@
                                              x:Name="MainSnackbar"
                                              Grid.Row="0" />
                 </Grid>
+                </materialDesign:DialogHost>
             </elements:LeftMenuContentWrapper>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

@@ -61,7 +61,7 @@ namespace WPF_client.DomainServices.ConnectionProviders
             _updatePeriod = updatePeriod;
 
             _refreshTimer = new Timer(_updatePeriod.TotalMilliseconds);
-            _reconnectTimer.Elapsed += (s, ea) => RefreshForecasts();
+            _refreshTimer.Elapsed += (s, ea) => RefreshForecasts();
 
             _reconnectTimer = new Timer(_retryTimout.TotalMilliseconds);
             _reconnectTimer.Elapsed += (s, ea) => RefreshConnection();
@@ -70,6 +70,7 @@ namespace WPF_client.DomainServices.ConnectionProviders
 
         public void StartWatchingForUpdates()
         {
+            RefreshForecasts();
             _refreshTimer.Start();
         }
 
