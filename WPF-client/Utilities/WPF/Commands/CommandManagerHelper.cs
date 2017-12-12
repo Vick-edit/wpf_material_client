@@ -8,7 +8,7 @@ namespace WPF_client.Utilities.WPF.Commands
     ///     This class contains methods for the CommandManager that help avoid memory leaks by
     ///     using weak references.
     /// </summary>
-    internal class CommandManagerHelper
+    internal static class CommandManagerHelper
     {
         internal static void CallWeakReferenceHandlers(List<WeakReference> handlers)
         {

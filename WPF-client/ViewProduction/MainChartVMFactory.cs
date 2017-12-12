@@ -1,6 +1,4 @@
 ﻿using System;
-using LiveCharts;
-using LiveCharts.Defaults;
 using WPF_client.Domain.ServerConnection;
 using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.JsonDataSerialization;

@@ -1,5 +1,4 @@
-﻿using System;
-using WPF_client.DomainServices.Exceptions;
+﻿using WPF_client.DomainServices.Exceptions;
 
 namespace WPF_client.DomainServices.Events
 {

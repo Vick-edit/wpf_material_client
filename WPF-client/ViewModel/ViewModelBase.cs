@@ -35,12 +35,22 @@ namespace WPF_client.ViewModel
                 var methodForCommand = thisType.GetMethod(attribute.CommandMethodName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (methodForCommand == null)
                     throw new ArgumentException(attribute.CommandMethodName);
-                var methodParams = methodForCommand.GetParameters();
-                if (methodParams.Length != 1)
-                    throw new Exception("Неверное число параметров метода");
 
-                Action<object> action = o => methodForCommand.Invoke(this, new[] {o});
-                propertyInfo.SetValue(this, new BaseCommandImplementation(action));
+                var methodParams = methodForCommand.GetParameters();
+                if (methodParams.Length == 0)
+                {
+                    Action action = () => methodForCommand.Invoke(this, new object[]{});
+                    propertyInfo.SetValue(this, new EmptyCommandImplementation(action));
+                }
+                else if (methodParams.Length == 1)
+                {
+                    Action<object> action = o => methodForCommand.Invoke(this, new[] { o });
+                    propertyInfo.SetValue(this, new BaseCommandImplementation(action));
+                }
+                else
+                {
+                    throw new Exception("Неверное число параметров метода");
+                }
             }
         }
     }

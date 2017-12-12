@@ -2,19 +2,30 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Defaults;
+using MaterialDesignThemes.Wpf;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.ConnectionProviders;
+using WPF_client.DomainServices.Exceptions;
+using WPF_client.Elements;
+using WPF_client.Utilities;
+using WPF_client.Utilities.WPF.Commands;
 using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.ViewModel
 {
     public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged, IDisposable
     {
+        private bool _isDataNotSated;
+    
         private const double RangeMaxScale = 1.1;
         private readonly double _startScale;
 
+        private const string ElementDialogHostName = "ElementDialogHost";
+        private Action _closeConErrorDialog;
+        private readonly ConnectionError _connectionErrorView;
         private readonly IForecastProvider _forecastProvider;
 
         private readonly long _timeSpanTicks;
@@ -24,12 +35,13 @@ namespace WPF_client.ViewModel
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
             _timeSpanTicks = timeSpan.Ticks;
 
-            IsConnectionError = false;
+            _isDataNotSated = true;
+            _connectionErrorView = new ConnectionError();
+
             _forecastProvider = forecastProvider;
             _forecastProvider.OnForecastUpdated += OnForecastUpdated;
-            _forecastProvider.OnConnectionLost += (s, ea) => IsConnectionError = true;
-            _forecastProvider.OnConnectionRestored += (s, ea) => IsConnectionError = false;
-            _forecastProvider.StartWatchingForUpdates();
+            _forecastProvider.OnConnectionLost += OnConnectionLosted;
+            _forecastProvider.OnConnectionRestored += OnConnectionRestored;
         }
 
 
@@ -41,7 +53,7 @@ namespace WPF_client.ViewModel
             {
                 var minValue = MinValueX;
                 var nexValue = MaxValueX;
-                if (!IsConnectionError)
+                if (!_isDataNotSated)
                 {
                     nexValue = Values.Where(x => x.DateTime.Ticks > minValue)
                         .Min(x => x.DateTime).Ticks;
@@ -54,7 +66,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (IsConnectionError)
+                if (_isDataNotSated)
                     return DateTime.Now.AddMinutes(1).Ticks;
                 return Values.Max(x => x.DateTime).Ticks;
             }
@@ -63,7 +75,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (IsConnectionError)
+                if (_isDataNotSated)
                     return DateTime.Now.Ticks;
                 return Values.Min(x => x.DateTime).Ticks;
             }
@@ -74,7 +86,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if(IsConnectionError)
+                if(_isDataNotSated)
                     return new ChartValues<DateTimePoint>();
                 return Get<ChartValues<DateTimePoint>>();
             }
@@ -93,7 +105,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (IsConnectionError)
+                if (_isDataNotSated)
                     return x => new DateTime((long)x).ToString("t");
                 return Get<Func<double, string>>();
             }
@@ -104,7 +116,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (IsConnectionError)
+                if (_isDataNotSated)
                     return MinValueX;
                 return Get<double>();
             }
@@ -117,17 +129,29 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (IsConnectionError)
+                if (_isDataNotSated)
                     return MaxValueX;
                 return Get<double>();
             }
             set { Set(value); }
         }
+        #endregion
 
-        public bool IsConnectionError
+
+        #region Commands
+        [MapCommand(nameof(StartWatchingForUpdates))]
+        public ICommand StartConnection { get; private set; }
+        private void StartWatchingForUpdates()
         {
-            get { return Get<bool>(); }
-            set { Set(value); }
+            _forecastProvider.StartWatchingForUpdates();
+        }
+
+        [MapCommand(nameof(StopWatchingForUpdates))]
+        public ICommand StopConnection { get; private set; }
+        private void StopWatchingForUpdates()
+        {
+            _forecastProvider.StopWatchingForUpdates();
+            _isDataNotSated = true;
         }
         #endregion
 
@@ -170,6 +194,7 @@ namespace WPF_client.ViewModel
         #region EventHandlers
         private void OnForecastUpdated(object sender, IList<Forecast> forecasts)
         {
+            _isDataNotSated = false;
             var minDate = forecasts.Min(x => x.ForecastTime);
             var maxDate = minDate.AddTicks(_timeSpanTicks);
             var selectedForecasts = forecasts.Where(x => x.ForecastTime < maxDate).ToList();
@@ -181,6 +206,28 @@ namespace WPF_client.ViewModel
             }
 
             Values = chartValues;
+        }
+
+        private async void OnConnectionLosted(object sender, ConnectionException updateError)
+        {
+            _isDataNotSated = true;
+
+            if (_closeConErrorDialog == null)
+                await DialogHost.Show(_connectionErrorView, ElementDialogHostName, OnDialogOpening);
+        }
+
+        private void OnDialogOpening(object sender, DialogOpenedEventArgs e)
+        {
+            _closeConErrorDialog = () =>
+            {
+                e.Session.Close();
+                _closeConErrorDialog = null;
+            };
+        }
+
+        private void OnConnectionRestored(object sender, string message)
+        {
+            _closeConErrorDialog?.Invoke();
         }
         #endregion
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.Exceptions;
 using WPF_client.DomainServices.JsonDataSerialization;

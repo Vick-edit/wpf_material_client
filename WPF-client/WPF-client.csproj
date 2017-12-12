@@ -62,6 +62,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -102,6 +103,7 @@
     </Compile>
     <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
+    <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Utilities\WPF\Commands\CommandManagerHelper.cs" />
     <Compile Include="Utilities\WPF\Commands\MapCommandAttribute.cs" />
