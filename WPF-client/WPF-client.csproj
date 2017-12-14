@@ -104,6 +104,9 @@
     <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
+    <Compile Include="Utilities\WPF\ElementControllers\DialogController.cs" />
+    <Compile Include="Utilities\WPF\ElementControllers\EmptyDialogController.cs" />
+    <Compile Include="Utilities\WPF\ElementControllers\IDialogController.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Utilities\WPF\Commands\CommandManagerHelper.cs" />
     <Compile Include="Utilities\WPF\Commands\MapCommandAttribute.cs" />
@@ -113,8 +116,16 @@
     <Compile Include="ViewModel\MainChartViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewProduction\Builders\BasePageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\DayForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\MonthForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\PaletteSelectoPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\WeekForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Interfaces\IPageBuilder.cs" />
+    <Compile Include="ViewProduction\Interfaces\IPageBuilderDirector.cs" />
     <Compile Include="ViewProduction\Interfaces\IViewFactory.cs" />
     <Compile Include="ViewProduction\MainChartVMFactory.cs" />
+    <Compile Include="ViewProduction\PageBuilderDirector.cs" />
     <Compile Include="View\MainChart.xaml.cs">
       <DependentUpon>MainChart.xaml</DependentUpon>
     </Compile>

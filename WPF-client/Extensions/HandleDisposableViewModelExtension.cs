@@ -12,7 +12,6 @@ namespace WPF_client.Extensions
                 var DataContext = Element.DataContext as IDisposable;
                 DataContext?.Dispose();
             };
-            Element.Unloaded += (s, ea) => Dispose();
             Element.Dispatcher.ShutdownStarted += (s, ea) => Dispose();
         }
     }

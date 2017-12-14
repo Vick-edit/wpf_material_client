@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using WPF_client.Utilities.WPF.ElementControllers;
 using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.Elements
@@ -9,15 +10,20 @@ namespace WPF_client.Elements
     {
         private string _name;
         private object _content;
+        private IDialogController _dialogController;
         private ScrollBarVisibility _horizontalScrollBarVisibilityRequirement;
         private ScrollBarVisibility _verticalScrollBarVisibilityRequirement;
         private Thickness _marginRequirement = new Thickness(16);
 
-        public PageContentItem(string name, object content)
+
+        public PageContentItem(string name, object content, IDialogController dialogController)
         {
             _name = name;
             Content = content;
+
+            DialogController = dialogController;
         }
+
 
         public string Name
         {
@@ -29,6 +35,12 @@ namespace WPF_client.Elements
         {
             get { return _content; }
             set { this.ChangeProperty(ref _content, value, RaisePropertyChanged()); }
+        }
+
+        public IDialogController DialogController
+        {
+            get { return _dialogController; }
+            set { this.ChangeProperty(ref _dialogController, value, RaisePropertyChanged()); }
         }
 
         public ScrollBarVisibility HorizontalScrollBarVisibilityRequirement

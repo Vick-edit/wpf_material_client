@@ -1,5 +1,6 @@
 ﻿using WPF_client.Elements;
 using WPF_client.ViewProduction;
+using WPF_client.ViewProduction.Builders;
 
 namespace WPF_client.ViewModel
 {
@@ -7,14 +8,15 @@ namespace WPF_client.ViewModel
     {
         public MainWindowViewModel()
         {
-            var viewFactory = new MainViewFactory();
+            var builderDirector = new PageBuilderDirector();
 
             MainMenuItems = new PageContentItem[]
             {
-                new PageContentItem("Прогноз на месяц", viewFactory.GetMonthForecastView()),
-                new PageContentItem("Прогноз на неделю", viewFactory.GetWeekForecast()),
-                new PageContentItem("Прогноз на один день", viewFactory.GetDayForecast()),
-                new PageContentItem("Цветовая тема", viewFactory.GetPaletteSelectoView()),
+                builderDirector.GetPageContentItem("Прогноз на месяц", new MonthForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз на неделю", new WeekForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз на один день", new DayForecastPageBuilder()),
+
+                builderDirector.GetPageContentItem("Цветовая тема", new PaletteSelectoPageBuilder()),
             };
         }
 

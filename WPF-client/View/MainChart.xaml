@@ -18,6 +18,9 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding StartConnection}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding StopConnection}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>

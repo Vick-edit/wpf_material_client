@@ -5,38 +5,33 @@ using System.Linq;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Defaults;
-using MaterialDesignThemes.Wpf;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.Exceptions;
-using WPF_client.Elements;
-using WPF_client.Utilities;
 using WPF_client.Utilities.WPF.Commands;
-using WPF_client.Utilities.WPF.NotifyPropertyChanged;
+using WPF_client.Utilities.WPF.ElementControllers;
 
 namespace WPF_client.ViewModel
 {
-    public class MainChartViewModel : BaseNotifyPropertyChanged, INotifyPropertyChanged, IDisposable
+    public class MainChartViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private bool _isDataNotSated;
     
         private const double RangeMaxScale = 1.1;
         private readonly double _startScale;
 
-        private const string ElementDialogHostName = "ElementDialogHost";
-        private Action _closeConErrorDialog;
-        private readonly ConnectionError _connectionErrorView;
         private readonly IForecastProvider _forecastProvider;
+        private readonly IDialogController _dialogController;
 
         private readonly long _timeSpanTicks;
-        public MainChartViewModel(IForecastProvider forecastProvider, TimeSpan timeSpan)
+        public MainChartViewModel(IForecastProvider forecastProvider, IDialogController dialogController, TimeSpan timeSpan)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
             _timeSpanTicks = timeSpan.Ticks;
 
             _isDataNotSated = true;
-            _connectionErrorView = new ConnectionError();
+            _dialogController = dialogController;
 
             _forecastProvider = forecastProvider;
             _forecastProvider.OnForecastUpdated += OnForecastUpdated;
@@ -195,39 +190,30 @@ namespace WPF_client.ViewModel
         private void OnForecastUpdated(object sender, IList<Forecast> forecasts)
         {
             _isDataNotSated = false;
+            _dialogController.IsDialogShown = false;
             var minDate = forecasts.Min(x => x.ForecastTime);
             var maxDate = minDate.AddTicks(_timeSpanTicks);
             var selectedForecasts = forecasts.Where(x => x.ForecastTime < maxDate).ToList();
 
             var chartValues = new ChartValues<DateTimePoint>();
-            foreach (var forecast in selectedForecasts)
+            for (var i = 0; i < selectedForecasts.Count && i < 500; i++)
             {
+                var forecast = selectedForecasts[i];
                 chartValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
             }
 
             Values = chartValues;
         }
 
-        private async void OnConnectionLosted(object sender, ConnectionException updateError)
+        private void OnConnectionLosted(object sender, ConnectionException updateError)
         {
             _isDataNotSated = true;
-
-            if (_closeConErrorDialog == null)
-                await DialogHost.Show(_connectionErrorView, ElementDialogHostName, OnDialogOpening);
-        }
-
-        private void OnDialogOpening(object sender, DialogOpenedEventArgs e)
-        {
-            _closeConErrorDialog = () =>
-            {
-                e.Session.Close();
-                _closeConErrorDialog = null;
-            };
+            _dialogController.IsDialogShown = true;
         }
 
         private void OnConnectionRestored(object sender, string message)
         {
-            _closeConErrorDialog?.Invoke();
+            _dialogController.IsDialogShown = false;
         }
         #endregion
 
