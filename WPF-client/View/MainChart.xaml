@@ -48,11 +48,14 @@
             <liveChart:CartesianChart.Series>
                 <liveChart:LineSeries   Title="Прогноз:"
                                                 StrokeThickness="2" 
-                                                Stroke="#1c7dcc"
+                                                Stroke="#2194F1"
                                                 Values="{Binding Values}"
-                                                Fill="#2194F1"
                                                 AreaLimit="0"
-                                                PointGeometrySize="8"/>
+                                                PointGeometrySize="8">
+                    <liveChart:LineSeries.Fill>
+                        <SolidColorBrush Color="#2194F1" Opacity=".5"/>
+                    </liveChart:LineSeries.Fill>
+                </liveChart:LineSeries>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis LabelFormatter="{Binding Formatter}" 
