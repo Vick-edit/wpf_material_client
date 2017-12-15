@@ -20,13 +20,7 @@ namespace WPF_client.Converters
             var tooltipDate = new DateTime((long)tooltipData.SharedValue);
             if (tooltipDate == DateTime.MinValue || tooltipDate == DateTime.MaxValue) return string.Empty;
 
-            var isBeginOfDay = tooltipDate.Hour == 0
-                          && tooltipDate.Minute == 0
-                          && tooltipDate.Second == 0
-                          && tooltipDate.Millisecond == 0;
-            var dateFormat = isBeginOfDay ? "dd MMM yyyy" : "dd MMM yyyy - HH:MM";
-
-            return tooltipDate.ToString(dateFormat);
+            return tooltipDate.ToString("dd MMM yyyy - HH:mm");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
