@@ -29,8 +29,8 @@ namespace WPF_client.Elements
         /// </summary>
         static DateTooltip()
         {
-            BackgroundProperty.OverrideMetadata(
-                typeof(DateTooltip), new FrameworkPropertyMetadata(new SolidColorBrush(Color.FromArgb(140, 255, 255, 255))));
+            //BackgroundProperty.OverrideMetadata(
+            //    typeof(DateTooltip), new FrameworkPropertyMetadata(new SolidColorBrush(Color.FromArgb(140, 255, 255, 255))));
             PaddingProperty.OverrideMetadata(
                 typeof(DateTooltip), new FrameworkPropertyMetadata(new Thickness(10, 5, 10, 5)));
             EffectProperty.OverrideMetadata(

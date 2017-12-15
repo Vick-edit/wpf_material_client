@@ -6,13 +6,11 @@
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:local="clr-namespace:WPF_client.View"
       xmlns:liveChart="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-      xmlns:viewModel="clr-namespace:WPF_client.ViewModel"
       xmlns:elements="clr-namespace:WPF_client.Elements"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      mc:Ignorable="d" 
+      xmlns:wpf="clr-namespace:WPF_client.Utilities.WPF"
+             mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300" 
-      Background="White" 
-                          >
+      Background="White">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -72,7 +70,10 @@
                                             ScrollMode="X" 
                                             ScrollHorizontalFrom="{Binding From, Mode=TwoWay}"
                                             ScrollHorizontalTo="{Binding To, Mode=TwoWay}"
-                                            ScrollBarFill="#25303030"
+                                            ScrollBarFill="{wpf:DynamicResourceBinding MaterialDesignSnackbarBackground, 
+                                                Converter={StaticResource OpacityBrushConverter}, 
+                                                ConverterParameter=0.15
+                                              }"
                                             DataTooltip="{x:Null}"
                                             Hoverable="False"
                                             Margin="20 10">
@@ -83,7 +84,7 @@
             </liveChart:CartesianChart.Resources>
             <liveChart:CartesianChart.Series>
                 <liveChart:LineSeries Values="{Binding Values}"
-                                            Fill="Silver"
+                                            Fill="{DynamicResource MaterialDesignCheckBoxDisabled}"
                                             StrokeThickness="0"
                                             PointGeometry="{x:Null}"
                                             AreaLimit="0"/>
@@ -91,7 +92,10 @@
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis IsMerged="True" 
                                           LabelFormatter="{Binding Formatter, Mode=OneTime}" 
-                                          Foreground="#98000000"
+                                          Foreground="{wpf:DynamicResourceBinding MaterialDesignBody, 
+                                            Converter={StaticResource OpacityBrushConverter}, 
+                                            ConverterParameter=0.6
+                                          }"
                                           FontSize="22"
                                           FontWeight="UltraBold"/>
             </liveChart:CartesianChart.AxisX>

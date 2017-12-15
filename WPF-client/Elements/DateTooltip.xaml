@@ -6,8 +6,13 @@
              xmlns:liveChartWpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:elements="clr-namespace:WPF_client.Elements"
              xmlns:converters="clr-namespace:WPF_client.Converters"
+             xmlns:wpf="clr-namespace:WPF_client.Utilities.WPF"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance elements:DateTooltip}"
+             Background="{wpf:DynamicResourceBinding MaterialDesignBackground,
+                    Converter={StaticResource OpacityBrushConverter}, 
+                    ConverterParameter=0.55
+             }"
              x:Name="Control">
     <UserControl.Resources>
         <Style TargetType="TextBlock">

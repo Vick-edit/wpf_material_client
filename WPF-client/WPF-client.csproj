@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DatePointToStringCoverter.cs" />
+    <Compile Include="Converters\OpacityBrushConverter.cs" />
     <Compile Include="DomainServices\ConnectionProviders\ForecastProvider.cs" />
     <Compile Include="DomainServices\ConnectionProviders\Interfaces\IForecastProvider.cs" />
     <Compile Include="DomainServices\Events\ConnectionEventsDelegates.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
+    <Compile Include="Utilities\WPF\DynamicResourceBinding.cs" />
     <Compile Include="Utilities\WPF\ElementControllers\DialogController.cs" />
     <Compile Include="Utilities\WPF\ElementControllers\EmptyDialogController.cs" />
     <Compile Include="Utilities\WPF\ElementControllers\IDialogController.cs" />
