@@ -8,11 +8,11 @@ using WPF_client.ViewModel;
 namespace WPF_client.View
 {
     /// <summary>
-    /// Interaction logic for MainChart.xaml
+    /// Interaction logic for ForecastsChart.xaml
     /// </summary>
-    public partial class MainChart : UserControl
+    public partial class ForecastsChart : UserControl
     {
-        public MainChart()
+        public ForecastsChart()
         {
             InitializeComponent();
             Background = Brushes.Transparent;

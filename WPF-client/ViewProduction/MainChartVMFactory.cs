@@ -12,7 +12,7 @@ namespace WPF_client.ViewProduction
     public class MainViewFactory : IViewFactory
     {
         /// <summary> График прогноза на месяц </summary>
-        public MainChart GetMonthForecastView()
+        public ForecastsChart GetMonthForecastView()
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
@@ -21,14 +21,14 @@ namespace WPF_client.ViewProduction
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
-            return new MainChart
+            return new ForecastsChart
             {
                 DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(30))
             };
         }
 
         /// <summary> График прогноза на неделю </summary>
-        public MainChart GetWeekForecast()
+        public ForecastsChart GetWeekForecast()
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
@@ -37,14 +37,14 @@ namespace WPF_client.ViewProduction
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
-            return new MainChart
+            return new ForecastsChart
             {
                 DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(7))
             };
         }
 
         /// <summary> График прогноза на день </summary>
-        public MainChart GetDayForecast()
+        public ForecastsChart GetDayForecast()
         {
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
@@ -53,7 +53,7 @@ namespace WPF_client.ViewProduction
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
-            return new MainChart
+            return new ForecastsChart
             {
                 DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(1))
             };

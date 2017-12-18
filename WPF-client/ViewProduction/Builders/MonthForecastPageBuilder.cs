@@ -40,7 +40,7 @@ namespace WPF_client.ViewProduction.Builders
         public override void SetupView()
         {
             base.SetupView();
-            var view = new MainChart
+            var view = new ForecastsChart
             {
                 DataContext = ViewModel
             };

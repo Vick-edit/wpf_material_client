@@ -6,11 +6,11 @@ namespace WPF_client.ViewProduction
     public interface IViewFactory
     {
         /// <summary> График прогноза на месяц </summary>
-        MainChart GetMonthForecastView();
+        ForecastsChart GetMonthForecastView();
         /// <summary> График прогноза на неделю </summary>
-        MainChart GetWeekForecast();
+        ForecastsChart GetWeekForecast();
         /// <summary> График прогноза на день </summary>
-        MainChart GetDayForecast();
+        ForecastsChart GetDayForecast();
 
         /// <summary> Управление темами приложения </summary>
         PaletteSelector GetPaletteSelectoView();

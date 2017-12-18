@@ -116,7 +116,7 @@
     <Compile Include="Utilities\ThemSettings.cs" />
     <Compile Include="Utilities\ExceptionLogger.cs" />
     <Compile Include="Utilities\ThemSettingsHandler.cs" />
-    <Compile Include="ViewModel\MainChartViewModel.cs" />
+    <Compile Include="ViewModel\ForecastChartViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewProduction\Builders\BasePageBuilder.cs" />
@@ -129,8 +129,8 @@
     <Compile Include="ViewProduction\Interfaces\IViewFactory.cs" />
     <Compile Include="ViewProduction\MainChartVMFactory.cs" />
     <Compile Include="ViewProduction\PageBuilderDirector.cs" />
-    <Compile Include="View\MainChart.xaml.cs">
-      <DependentUpon>MainChart.xaml</DependentUpon>
+    <Compile Include="View\ForecastsChart.xaml.cs">
+      <DependentUpon>ForecastsChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PaletteSelector.xaml.cs">
       <DependentUpon>PaletteSelector.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MainChart.xaml">
+    <Page Include="View\ForecastsChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
