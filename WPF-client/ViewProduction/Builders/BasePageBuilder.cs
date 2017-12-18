@@ -45,6 +45,8 @@ namespace WPF_client.ViewProduction.Builders
         {
             if (ViewElement == null)
                 throw new NullReferenceException("Не задан графический элемент страницы");
+            if (ViewModel == null)
+                throw new NullReferenceException("Не задан контекст графического элемента страницы");
             if (string.IsNullOrEmpty(ContextMenuElementName))
             {
                 ContextMenuItems = null;
@@ -61,6 +63,7 @@ namespace WPF_client.ViewProduction.Builders
 
             ContextMenuItems = (StackPanel) hiddenContextMenu.PopupContent;
             hiddenContextMenu.PopupContent = null;
+            ContextMenuItems.DataContext = ViewModel;
         }
     }
 }
