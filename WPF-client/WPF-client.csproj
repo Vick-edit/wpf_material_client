@@ -99,6 +99,7 @@
     <Compile Include="Elements\DateTooltip.xaml.cs">
       <DependentUpon>DateTooltip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements\HiddenContextMenu.cs" />
     <Compile Include="Elements\Palette.xaml.cs">
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>

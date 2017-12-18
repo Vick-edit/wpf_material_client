@@ -9,6 +9,7 @@ namespace WPF_client.ViewProduction
             pageBuilder.SetupBuisnesLogic();
             pageBuilder.SetupViewModel();
             pageBuilder.SetupView();
+            pageBuilder.SetupContextMenu();
             return pageBuilder.GetNewPage(pageTitle);
         }
     }

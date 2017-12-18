@@ -11,17 +11,22 @@ namespace WPF_client.Elements
         private string _name;
         private object _content;
         private IDialogController _dialogController;
+        private StackPanel _contextElements;
         private ScrollBarVisibility _horizontalScrollBarVisibilityRequirement;
         private ScrollBarVisibility _verticalScrollBarVisibilityRequirement;
         private Thickness _marginRequirement = new Thickness(16);
 
 
         public PageContentItem(string name, object content, IDialogController dialogController)
+            :this(name, content, dialogController, null) { }
+
+        public PageContentItem(string name, object content, IDialogController dialogController, StackPanel contextElements)
         {
             _name = name;
             Content = content;
 
             DialogController = dialogController;
+            ContextElements = contextElements;
         }
 
 
@@ -37,11 +42,35 @@ namespace WPF_client.Elements
             set { this.ChangeProperty(ref _content, value, RaisePropertyChanged()); }
         }
 
+
         public IDialogController DialogController
         {
             get { return _dialogController; }
             set { this.ChangeProperty(ref _dialogController, value, RaisePropertyChanged()); }
         }
+
+        public StackPanel ContextElements
+        {
+            get { return _contextElements; }
+            set
+            {
+                _contextElements = value;
+                OnPropertyChanged(nameof(ContextElements));
+                OnPropertyChanged(nameof(ContextMenuVisibility));
+            }
+        }
+
+        public Visibility ContextMenuVisibility
+        {
+            get
+            {
+                if (ContextElements != null)
+                    return Visibility.Visible;
+                else
+                    return Visibility.Hidden;
+            }
+        }
+
 
         public ScrollBarVisibility HorizontalScrollBarVisibilityRequirement
         {

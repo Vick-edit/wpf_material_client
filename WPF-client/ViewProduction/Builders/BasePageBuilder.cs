@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using WPF_client.Elements;
 using WPF_client.Utilities.WPF.ElementControllers;
 
@@ -13,6 +14,8 @@ namespace WPF_client.ViewProduction.Builders
         protected FrameworkElement ViewElement;
         protected object ViewModel;
 
+        protected string ContextMenuElementName;
+        protected StackPanel ContextMenuItems;
 
         public virtual PageContentItem GetNewPage(string pageName)
         {
@@ -20,7 +23,7 @@ namespace WPF_client.ViewProduction.Builders
                 throw new NullReferenceException("Не задан графический элемент страницы");
             var dialogController = DialogController ?? new EmptyDialogController();
 
-            return new PageContentItem(pageName, ViewElement, dialogController);
+            return new PageContentItem(pageName, ViewElement, dialogController, ContextMenuItems);
         }
 
 
@@ -36,6 +39,28 @@ namespace WPF_client.ViewProduction.Builders
         {
             if (ViewModel == null)
                 throw new NullReferenceException("Не задан контекст графического элемента страницы");
+        }
+
+        public void SetupContextMenu()
+        {
+            if (ViewElement == null)
+                throw new NullReferenceException("Не задан графический элемент страницы");
+            if (string.IsNullOrEmpty(ContextMenuElementName))
+            {
+                ContextMenuItems = null;
+                return;
+            }
+
+
+            var hiddenContextMenu = ViewElement.FindName(ContextMenuElementName) as HiddenContextMenu;
+            if ( !(hiddenContextMenu?.PopupContent is StackPanel) )
+            {
+                ContextMenuItems = null;
+                return;
+            }
+
+            ContextMenuItems = (StackPanel) hiddenContextMenu.PopupContent;
+            hiddenContextMenu.PopupContent = null;
         }
     }
 }

@@ -40,10 +40,13 @@ namespace WPF_client.ViewProduction.Builders
         public override void SetupView()
         {
             base.SetupView();
-            ViewElement = new MainChart
+            var view = new MainChart
             {
                 DataContext = ViewModel
             };
+
+            ContextMenuElementName = nameof(view.HiddenContextMenu);
+            ViewElement = view;
         }
     }
 }

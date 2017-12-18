@@ -11,5 +11,7 @@ namespace WPF_client.ViewProduction
         void SetupViewModel();
 
         void SetupView();
+
+        void SetupContextMenu();
     }
 }

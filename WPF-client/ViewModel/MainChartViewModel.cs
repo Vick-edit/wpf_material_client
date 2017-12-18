@@ -15,8 +15,6 @@ namespace WPF_client.ViewModel
 {
     public class MainChartViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
-        private bool _isDataNotSated;
-    
         private const double RangeMaxScale = 1.1;
         private readonly double _startScale;
 
@@ -30,7 +28,7 @@ namespace WPF_client.ViewModel
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
             _timeSpanTicks = timeSpan.Ticks;
 
-            _isDataNotSated = true;
+            IsDataSated = false;
             _dialogController = dialogController;
 
             _forecastProvider = forecastProvider;
@@ -48,7 +46,7 @@ namespace WPF_client.ViewModel
             {
                 var minValue = MinValueX;
                 var nexValue = MaxValueX;
-                if (!_isDataNotSated)
+                if (IsDataSated)
                 {
                     nexValue = Values.Where(x => x.DateTime.Ticks > minValue)
                         .Min(x => x.DateTime).Ticks;
@@ -61,7 +59,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (_isDataNotSated)
+                if (!IsDataSated)
                     return DateTime.Now.AddMinutes(1).Ticks;
                 return Values.Max(x => x.DateTime).Ticks;
             }
@@ -70,7 +68,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (_isDataNotSated)
+                if (!IsDataSated)
                     return DateTime.Now.Ticks;
                 return Values.Min(x => x.DateTime).Ticks;
             }
@@ -81,7 +79,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if(_isDataNotSated)
+                if(!IsDataSated)
                     return new ChartValues<DateTimePoint>();
                 return Get<ChartValues<DateTimePoint>>();
             }
@@ -100,7 +98,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (_isDataNotSated)
+                if (!IsDataSated)
                     return x => new DateTime((long)x).ToString("t");
                 return Get<Func<double, string>>();
             }
@@ -111,7 +109,7 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (_isDataNotSated)
+                if (!IsDataSated)
                     return MinValueX;
                 return Get<double>();
             }
@@ -124,10 +122,16 @@ namespace WPF_client.ViewModel
         {
             get
             {
-                if (_isDataNotSated)
+                if (!IsDataSated)
                     return MaxValueX;
                 return Get<double>();
             }
+            set { Set(value); }
+        }
+
+        public bool IsDataSated
+        {
+            get { return Get<bool>(); }
             set { Set(value); }
         }
         #endregion
@@ -146,7 +150,7 @@ namespace WPF_client.ViewModel
         private void StopWatchingForUpdates()
         {
             _forecastProvider.StopWatchingForUpdates();
-            _isDataNotSated = true;
+            IsDataSated = false;
         }
         #endregion
 
@@ -189,7 +193,7 @@ namespace WPF_client.ViewModel
         #region EventHandlers
         private void OnForecastUpdated(object sender, IList<Forecast> forecasts)
         {
-            _isDataNotSated = false;
+            IsDataSated = true;
             _dialogController.IsDialogShown = false;
             var minDate = forecasts.Min(x => x.ForecastTime);
             var maxDate = minDate.AddTicks(_timeSpanTicks);
@@ -207,7 +211,7 @@ namespace WPF_client.ViewModel
 
         private void OnConnectionLosted(object sender, ConnectionException updateError)
         {
-            _isDataNotSated = true;
+            IsDataSated = false;
             _dialogController.IsDialogShown = true;
         }
 

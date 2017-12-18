@@ -23,7 +23,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+    <materialDesign:DialogHost x:Name="DialogHostRoot"  Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
         <materialDesign:DrawerHost x:Name="LeftMenuRoot" IsLeftDrawerOpen="{Binding IsChecked, ElementName=MainMenuToggleButton}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel x:Name="LeftMenu" MinWidth="212">
@@ -51,15 +51,13 @@
                             <DockPanel>
                                 <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
                                       x:Name="MainMenuToggleButton"/>
-                                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                                    <StackPanel>
-                                        <Button Content="Пункт меню #1" Click="MenuPopupButton_OnClick"/>
-                                        <Button Content="Пункт меню #2" Click="MenuPopupButton_OnClick"/>
-                                        <Button Content="Пункт меню #3 - Не рабочий" Click="MenuPopupButton_OnClick" IsEnabled="False"/>
-                                        <Button Content="Пункт меню #4" Click="MenuPopupButton_OnClick"/>
-                                        <Separator/>
-                                        <Button Content="Пункт меню Последний" Click="MenuPopupButton_OnClick"/>
-                                    </StackPanel>
+                                <materialDesign:PopupBox DockPanel.Dock="Right" 
+                                                         PlacementMode="BottomAndAlignRightEdges" 
+                                                         StaysOpen="False"
+                                                         Visibility="{Binding SelectedItem.ContextMenuVisibility, Mode=OneWay, ElementName=MenuItemsListBox}">
+                                    <materialDesign:PopupBox.PopupContent>
+                                        <Binding Path="SelectedItem.ContextElements" Mode="OneWay" ElementName="MenuItemsListBox"/>
+                                    </materialDesign:PopupBox.PopupContent>
                                 </materialDesign:PopupBox>
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Electricae Oraculum"/>
                             </DockPanel>
