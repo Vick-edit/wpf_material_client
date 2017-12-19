@@ -77,7 +77,7 @@
                                   Padding="{Binding SelectedItem.MarginRequirement, ElementName=MenuItemsListBox}">
                         <ContentControl Content="{Binding SelectedItem.Content, ElementName=MenuItemsListBox}" />
                     </ScrollViewer>
-                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" 
+                        <materialDesign:Snackbar MessageQueue="{Binding RootMessageQueue}" 
                                              x:Name="MainSnackbar"
                                              Grid.Row="0" />
                 </Grid>

@@ -36,7 +36,7 @@ namespace WPF_client.Domain.ServerConnection
             var newValue = randomise.Next(0, 2);
             if (newValue >= 1)
             {
-                var exePath = System.AppDomain.CurrentDomain.BaseDirectory;
+                var exePath = AppDomain.CurrentDomain.BaseDirectory;
                 var rootFolder = Directory.GetParent(exePath).Parent.Parent.Parent.FullName;
                 var jsonFile = Path.Combine(rootFolder, "WPF-client.Test", "TestData", "archive.json");
 

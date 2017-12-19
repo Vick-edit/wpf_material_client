@@ -5,9 +5,13 @@ using System.Linq;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Defaults;
+using Microsoft.Win32;
 using WPF_client.Domain.DomainModels;
+using WPF_client.DomainServices;
 using WPF_client.DomainServices.ConnectionProviders;
+using WPF_client.DomainServices.Events;
 using WPF_client.DomainServices.Exceptions;
+using WPF_client.Utilities;
 using WPF_client.Utilities.WPF.Commands;
 using WPF_client.Utilities.WPF.ElementControllers;
 
@@ -15,14 +19,18 @@ namespace WPF_client.ViewModel
 {
     public class MainChartViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
+        public event EventWithMessage OnMessage;
+
         private const double RangeMaxScale = 1.1;
         private readonly double _startScale;
 
         private readonly IForecastProvider _forecastProvider;
         private readonly IDialogController _dialogController;
+        private readonly ICsvFileCreator _csvFileCreator;
 
         private readonly long _timeSpanTicks;
-        public MainChartViewModel(IForecastProvider forecastProvider, IDialogController dialogController, TimeSpan timeSpan)
+        public MainChartViewModel(IForecastProvider forecastProvider, IDialogController dialogController, 
+            ICsvFileCreator csvFileCreator, TimeSpan timeSpan)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
@@ -30,6 +38,7 @@ namespace WPF_client.ViewModel
 
             IsDataSated = false;
             _dialogController = dialogController;
+            _csvFileCreator = csvFileCreator;
 
             _forecastProvider = forecastProvider;
             _forecastProvider.OnForecastUpdated += OnForecastUpdated;
@@ -151,6 +160,33 @@ namespace WPF_client.ViewModel
         {
             _forecastProvider.StopWatchingForUpdates();
             IsDataSated = false;
+        }
+
+        [MapCommand(nameof(SaveDataToCsv))]
+        public ICommand SaveToCsvCommand { get; private set; }
+        private void SaveDataToCsv()
+        {
+            try
+            {
+                var saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "CSV file (*.csv)|*.csv";
+                saveFileDialog.DefaultExt = "csv";
+                saveFileDialog.AddExtension = true;
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    var filePath = saveFileDialog.FileName;
+                    var saved = _csvFileCreator.SaveToFile(filePath, _forecastProvider.Forecasts);
+                    var message = saved ? "Файл успешно сохранен" : "Файл не был сохранён";
+                    OnMessage?.Invoke(this, message);
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionLogger.Log(e);
+
+                var errorDescription = $"Не удалось сохранить файл, возникла следующая ошибка:\r\n{e.Message}";
+                OnMessage?.Invoke(this, errorDescription);
+            }
         }
         #endregion
 

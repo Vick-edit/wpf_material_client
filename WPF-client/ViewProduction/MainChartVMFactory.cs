@@ -1,5 +1,6 @@
 ﻿using System;
 using WPF_client.Domain.ServerConnection;
+using WPF_client.DomainServices;
 using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.JsonDataSerialization;
 using WPF_client.Elements;
@@ -17,13 +18,14 @@ namespace WPF_client.ViewProduction
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
             var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
+            var csvFileCreator = new CsvFileCreator();
 
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
             return new ForecastsChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(30))
+                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, csvFileCreator,  TimeSpan.FromDays(30))
             };
         }
 
@@ -33,13 +35,14 @@ namespace WPF_client.ViewProduction
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
             var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
+            var csvFileCreator = new CsvFileCreator();
 
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
             return new ForecastsChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(7))
+                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, csvFileCreator, TimeSpan.FromDays(7))
             };
         }
 
@@ -49,13 +52,14 @@ namespace WPF_client.ViewProduction
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
             var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(15));
+            var csvFileCreator = new CsvFileCreator();
 
             var connectionErrorDialog = new ConnectionError();
             var dialogController = new DialogController(connectionErrorDialog);
 
             return new ForecastsChart
             {
-                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, TimeSpan.FromDays(1))
+                DataContext = new MainChartViewModel(forecastConnetionProvider, dialogController, csvFileCreator, TimeSpan.FromDays(1))
             };
         }
 

@@ -40,6 +40,10 @@
     <ApplicationIcon>chart.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.6.1.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
       <Private>True</Private>
@@ -84,9 +88,12 @@
     <Compile Include="Converters\OpacityBrushConverter.cs" />
     <Compile Include="DomainServices\ConnectionProviders\ForecastProvider.cs" />
     <Compile Include="DomainServices\ConnectionProviders\Interfaces\IForecastProvider.cs" />
+    <Compile Include="DomainServices\CsvFileCreator.cs" />
+    <Compile Include="DomainServices\Events\BaseEvenetsDelegates.cs" />
     <Compile Include="DomainServices\Events\ConnectionEventsDelegates.cs" />
     <Compile Include="DomainServices\Events\ForecastEventsDelegates.cs" />
     <Compile Include="DomainServices\Exceptions\ConnectionException.cs" />
+    <Compile Include="DomainServices\ICsvFileCreator.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\ForecastDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonData.cs" />
@@ -104,6 +111,7 @@
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
+    <Compile Include="Utilities\Session.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\DynamicResourceBinding.cs" />

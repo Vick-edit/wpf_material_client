@@ -32,12 +32,7 @@
                                      HorizontalAlignment="Right" VerticalAlignment="Center"
                                      Grid.Row="0">
             <StackPanel IsEnabled="{Binding IsDataSated, Mode=OneWay}">
-                <Button Content="Пункт меню #1"/>
-                <Button Content="Пункт меню #2"/>
-                <Button Content="Пункт меню #3 - Не рабочий" IsEnabled="False"/>
-                <Button Content="Пункт меню #4"/>
-                <Separator/>
-                <Button Content="Пункт меню Последний"/>
+                <Button Content="Выгрузить данные в csv" Command="{Binding SaveToCsvCommand}"/>
             </StackPanel>
         </elements:HiddenContextMenu>
 

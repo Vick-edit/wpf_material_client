@@ -1,5 +1,6 @@
 ﻿using System;
 using WPF_client.Domain.ServerConnection;
+using WPF_client.DomainServices;
 using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.JsonDataSerialization;
 using WPF_client.Elements;
@@ -12,6 +13,7 @@ namespace WPF_client.ViewProduction.Builders
     public class WeekForecastPageBuilder : BasePageBuilder, IPageBuilder
     {
         private IForecastProvider _forecastProvider;
+        private ICsvFileCreator _csvFileCreator;
 
         public override void SetupBuisnesLogic()
         {
@@ -20,13 +22,14 @@ namespace WPF_client.ViewProduction.Builders
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
             _forecastProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
+            _csvFileCreator = new CsvFileCreator();
         }
 
         public override void SetupViewModel()
         {
             base.SetupViewModel();
 
-            if (_forecastProvider == null)
+            if (_forecastProvider == null || _csvFileCreator == null)
                 throw new NullReferenceException("Не задана бизнеслогика страницы");
 
             var dialogElement = new ConnectionError();
@@ -34,7 +37,7 @@ namespace WPF_client.ViewProduction.Builders
 
             var forecastPeriod = TimeSpan.FromDays(7);
 
-            ViewModel = new MainChartViewModel(_forecastProvider, DialogController, forecastPeriod);
+            ViewModel = new MainChartViewModel(_forecastProvider, DialogController, _csvFileCreator, forecastPeriod);
         }
 
         public override void SetupView()

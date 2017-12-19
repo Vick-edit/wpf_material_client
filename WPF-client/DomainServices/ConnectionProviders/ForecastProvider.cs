@@ -16,32 +16,32 @@ namespace WPF_client.DomainServices.ConnectionProviders
         public event ForecastConnectionError OnConnectionLost;
         public event ForecastConnectionSuccess OnConnectionRestored;
 
-        private ReaderWriterLockSlim forecastsLock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim _forecastsLock = new ReaderWriterLockSlim();
         private IList<Forecast> _forecasts;
         public IList<Forecast> Forecasts
         {
             get
             {
-                forecastsLock.EnterReadLock();
+                _forecastsLock.EnterReadLock();
                 try
                 {
                     return _forecasts;
                 }
                 finally 
                 {
-                    forecastsLock.ExitReadLock();
+                    _forecastsLock.ExitReadLock();
                 }
             }
             private set
             {
-                forecastsLock.EnterWriteLock();
+                _forecastsLock.EnterWriteLock();
                 try
                 {
                     _forecasts = value;
                 }
                 finally
                 {
-                    forecastsLock.ExitWriteLock();
+                    _forecastsLock.ExitWriteLock();
                 }
             }
         }

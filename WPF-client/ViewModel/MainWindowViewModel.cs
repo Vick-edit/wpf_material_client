@@ -1,4 +1,7 @@
-﻿using WPF_client.Elements;
+﻿using System;
+using MaterialDesignThemes.Wpf;
+using WPF_client.Elements;
+using WPF_client.Utilities;
 using WPF_client.ViewProduction;
 using WPF_client.ViewProduction.Builders;
 
@@ -8,8 +11,10 @@ namespace WPF_client.ViewModel
     {
         public MainWindowViewModel()
         {
-            var builderDirector = new PageBuilderDirector();
+            RootMessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(10));
+            Session.Instance.SnackbarMessageQueue = RootMessageQueue;
 
+            var builderDirector = new PageBuilderDirector();
             MainMenuItems = new PageContentItem[]
             {
                 builderDirector.GetPageContentItem("Прогноз на месяц", new MonthForecastPageBuilder()),
@@ -21,5 +26,7 @@ namespace WPF_client.ViewModel
         }
 
         public PageContentItem[] MainMenuItems { get; }
+
+        public SnackbarMessageQueue RootMessageQueue { get; }
     }
 }

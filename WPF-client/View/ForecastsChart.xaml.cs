@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
 using LiveCharts.Events;
 using WPF_client.Extensions;
+using WPF_client.Utilities;
 using WPF_client.ViewModel;
 
 namespace WPF_client.View
@@ -20,6 +22,19 @@ namespace WPF_client.View
         }
 
 
+        #region Services elements
+        public new object DataContext
+        {
+            get { return base.DataContext; }
+            set
+            {
+                if (DataContext is MainChartViewModel)
+                    throw new InvalidDataException("Неверный формат контекста страницы");
+                base.DataContext = value;
+                UpdateEventBindings();
+            }
+        }
+
         private MainChartViewModel ExtractViewModel()
         {
             var viewModel = DataContext as MainChartViewModel;
@@ -28,6 +43,14 @@ namespace WPF_client.View
             return viewModel;
         }
 
+        private void UpdateEventBindings()
+        {
+            var viewModel = ExtractViewModel();
+            viewModel.OnMessage += ViewModelOnOnMessage;
+        }
+        #endregion
+
+        #region EventHandlers
         private void Axis_OnRangeChanged(RangeChangedEventArgs eventargs)
         {
             var viewModel = ExtractViewModel();
@@ -48,5 +71,13 @@ namespace WPF_client.View
             if (e.PreviewMaxValue > viewModel.MaxValueX + percent)
                 e.Cancel = true;
         }
+
+        private void ViewModelOnOnMessage(object sender, string message)
+        {
+            Session.Instance.SnackbarMessageQueue.Enqueue(
+                    message, "OK", () => { }
+                );
+        }
+        #endregion
     }
 }
