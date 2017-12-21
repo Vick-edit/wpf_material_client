@@ -175,7 +175,8 @@ namespace WPF_client.ViewModel
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     var filePath = saveFileDialog.FileName;
-                    var saved = _csvFileCreator.SaveToFile(filePath, _forecastProvider.Forecasts);
+                    var selectedForecasts = GetForecastsForPeriod(_forecastProvider.Forecasts);
+                    var saved = _csvFileCreator.SaveToFile(filePath, selectedForecasts);
                     var message = saved ? "Файл успешно сохранен" : "Файл не был сохранён";
                     OnMessage?.Invoke(this, message);
                 }
@@ -225,15 +226,21 @@ namespace WPF_client.ViewModel
             UpdateFormatter(To - From);
         }
 
+        private List<Forecast> GetForecastsForPeriod(IList<Forecast> forecasts)
+        {
+            var minDate = forecasts.Min(x => x.ForecastTime);
+            var maxDate = minDate.AddTicks(_timeSpanTicks);
+            var selectedForecasts = forecasts.Where(x => x.ForecastTime < maxDate).ToList();
+            return selectedForecasts;
+        }
+
 
         #region EventHandlers
         private void OnForecastUpdated(object sender, IList<Forecast> forecasts)
         {
             IsDataSated = true;
             _dialogController.IsDialogShown = false;
-            var minDate = forecasts.Min(x => x.ForecastTime);
-            var maxDate = minDate.AddTicks(_timeSpanTicks);
-            var selectedForecasts = forecasts.Where(x => x.ForecastTime < maxDate).ToList();
+            var selectedForecasts = GetForecastsForPeriod(forecasts);
 
             var chartValues = new ChartValues<DateTimePoint>();
             for (var i = 0; i < selectedForecasts.Count && i < 500; i++)
