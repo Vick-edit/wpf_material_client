@@ -13,27 +13,22 @@ namespace WPF_client.DomainServices.JsonDataSerialization
             try
             {
                 //Вытаскиваем словарь прогнозов
-                var jsonElements = JsonConvert.DeserializeObject<Dictionary<string, ForecastJsonData>>(jsonString);
+                var jsonDeserializeSettings = new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy-MM-dd\\THH:mm:ss\\Z"
+                };
+                var jsonElements = JsonConvert.DeserializeObject<List<ForecastJsonData>>(jsonString);
                 if (jsonElements == null || jsonElements.Count == 0)
-                    throw new JsonException("Не удалось найти объекты прогноза в JSON");
+                    throw new JsonException("Не удалось найти ни одного объекта прогноза в JSON");
 
                 //Из каждого элемента словаря создаем объект
                 var forecasts = new List<Forecast>();
-                foreach (KeyValuePair<string, ForecastJsonData> jsonElement in jsonElements)
+                foreach (var forecastData in jsonElements)
                 {
-                    var forecastDate = new DateTime(1970, 1, 1, 0, 0, 0);
-                    forecastDate = forecastDate.AddMilliseconds(long.Parse(jsonElement.Key));
-
-                    var forecastData = jsonElement.Value;
                     forecasts.Add(new Forecast
                     {
-                        ForecastPower = forecastData.AP,
-                        ForecastTime = forecastDate,
-
-                        DaySerialNumber = forecastData.day,
-                        WeekSerialNumber = forecastData.week,
-                        DayOfWeekNumber = forecastData.weekday,
-                        IsItWeekend = forecastData.weekend == 1,
+                        ForecastPower = forecastData.ap,
+                        ForecastTime = forecastData.time,
                     });
                 }
 

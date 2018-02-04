@@ -30,6 +30,8 @@ namespace WPF_client.Utilities
         }
         #endregion
 
+        public long ActiveForecastObjectId { get; set; }
+
         private readonly ReaderWriterLockSlim _snackbarLock = new ReaderWriterLockSlim();
         private SnackbarMessageQueue _snackbarMessageQueue;
         public SnackbarMessageQueue SnackbarMessageQueue

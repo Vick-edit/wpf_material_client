@@ -36,9 +36,16 @@
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="elements:PageContentItem">
-                                <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
+                                <TextBlock Text="{Binding Name}" Margin="32 0 32 0"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                <Style.Setters>
+                                    <Setter Property="IsEnabled" Value="{Binding IsActive}"/>
+                                </Style.Setters>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                 </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>

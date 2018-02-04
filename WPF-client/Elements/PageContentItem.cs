@@ -10,6 +10,7 @@ namespace WPF_client.Elements
     {
         private string _name;
         private object _content;
+        private bool _isActive;
         private IDialogController _dialogController;
         private StackPanel _contextElements;
         private ScrollBarVisibility _horizontalScrollBarVisibilityRequirement;
@@ -22,6 +23,7 @@ namespace WPF_client.Elements
 
         public PageContentItem(string name, object content, IDialogController dialogController, StackPanel contextElements)
         {
+            _isActive = true;
             _name = name;
             Content = content;
 
@@ -29,6 +31,12 @@ namespace WPF_client.Elements
             ContextElements = contextElements;
         }
 
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { this.ChangeProperty(ref _isActive, value, RaisePropertyChanged()); }
+        }
 
         public string Name
         {

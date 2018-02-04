@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using RestSharp;
 using WPF_client.Domain.DomainModels;
-using WPF_client.DomainServices.Exceptions;
 using WPF_client.DomainServices.JsonDataSerialization;
+using WPF_client.Utilities;
 
 namespace WPF_client.Domain.ServerConnection
 {
@@ -11,10 +10,12 @@ namespace WPF_client.Domain.ServerConnection
     public class ForecastConnection : IForecastConnection
     {
         private readonly IJsonDeserializer<Forecast> _jsonDeserializer;
+        private readonly RestClient _restClient;
 
         public ForecastConnection(IJsonDeserializer<Forecast> jsonDeserializer)
         {
             _jsonDeserializer = jsonDeserializer;
+            _restClient = new RestClient(ServerUrl.ServerName);
         }
 
 
@@ -31,7 +32,7 @@ namespace WPF_client.Domain.ServerConnection
         //Получить строку с прогнозами от сервера
         private string GetJsonForecast()
         {
-#if DEBUG
+            /*
             var randomise = new Random();
             var newValue = randomise.Next(0, 2);
             if (newValue >= 1)
@@ -45,9 +46,12 @@ namespace WPF_client.Domain.ServerConnection
             }
 
             throw  new ConnectionException("local");
-#else
-            throw new NotImplementedException();
-#endif
+            */
+
+            var request = new RestRequest(ServerUrl.ForecastsData, Method.GET);
+            request.AddUrlSegment("id", Session.Instance.ActiveForecastObjectId.ToString());
+            var response = _restClient.Execute(request);
+            return response.Content;
         }
     }
 }

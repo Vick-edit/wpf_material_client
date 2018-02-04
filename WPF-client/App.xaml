@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WPF_client"
              xmlns:converters="clr-namespace:WPF_client.Converters"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"
              StartupUri="View/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

@@ -64,6 +64,10 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -95,11 +99,16 @@
     <Compile Include="DomainServices\Exceptions\ConnectionException.cs" />
     <Compile Include="DomainServices\ICsvFileCreator.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\ForecastDeserializer.cs" />
+    <Compile Include="DomainServices\JsonDataSerialization\ForecastObjectDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonData.cs" />
+    <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonObject.cs" />
     <Compile Include="Domain\DomainModels\Forecast.cs" />
     <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
+    <Compile Include="Domain\ServerConnection\GetForecastObjects.cs" />
     <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />
+    <Compile Include="Domain\ServerConnection\Interfaces\IGetCommand.cs" />
+    <Compile Include="Domain\ServerConnection\ServerUrl.cs" />
     <Compile Include="Elements\ConnectionError.xaml.cs">
       <DependentUpon>ConnectionError.xaml</DependentUpon>
     </Compile>
@@ -125,10 +134,12 @@
     <Compile Include="Utilities\ExceptionLogger.cs" />
     <Compile Include="Utilities\ThemSettingsHandler.cs" />
     <Compile Include="ViewModel\ForecastChartViewModel.cs" />
+    <Compile Include="ViewModel\ForecastsObjectsViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewProduction\Builders\BasePageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\DayForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\ForecastObjectPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\MonthForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\PaletteSelectoPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\WeekForecastPageBuilder.cs" />
@@ -139,6 +150,9 @@
     <Compile Include="ViewProduction\PageBuilderDirector.cs" />
     <Compile Include="View\ForecastsChart.xaml.cs">
       <DependentUpon>ForecastsChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForecastsObjects.xaml.cs">
+      <DependentUpon>ForecastsObjects.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PaletteSelector.xaml.cs">
       <DependentUpon>PaletteSelector.xaml</DependentUpon>
@@ -164,6 +178,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ForecastsChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ForecastsObjects.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

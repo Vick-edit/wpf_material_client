@@ -51,5 +51,12 @@ namespace WPF_client.ViewProduction.Builders
             ContextMenuElementName = nameof(view.HiddenContextMenu);
             ViewElement = view;
         }
+
+        public override PageContentItem GetNewPage(string pageName)
+        {
+            var newPage = base.GetNewPage(pageName);
+            newPage.IsActive = false;
+            return newPage;
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace WPF_client.ViewModel
             var builderDirector = new PageBuilderDirector();
             MainMenuItems = new PageContentItem[]
             {
+                builderDirector.GetPageContentItem("Объект прогнозирования", new ForecastObjectPageBuilder()),
+
                 builderDirector.GetPageContentItem("Прогноз на месяц", new MonthForecastPageBuilder()),
                 builderDirector.GetPageContentItem("Прогноз на неделю", new WeekForecastPageBuilder()),
                 builderDirector.GetPageContentItem("Прогноз на один день", new DayForecastPageBuilder()),
