@@ -1,6 +1,5 @@
 ﻿using System;
 using WPF_client.Domain.ServerConnection;
-using WPF_client.DomainServices;
 using WPF_client.DomainServices.JsonDataSerialization;
 using WPF_client.DomainServices.JsonDataSerialization.MapingObjects;
 using WPF_client.Elements;
@@ -13,7 +12,6 @@ namespace WPF_client.ViewProduction.Builders
     public class ForecastObjectPageBuilder : BasePageBuilder
     {
         private IGetCommand<ForecastJsonObject> _forecastObjectProvider;
-        private ICsvFileCreator _csvFileCreator;
 
         public override void SetupBuisnesLogic()
         {

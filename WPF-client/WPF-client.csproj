@@ -90,6 +90,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DatePointToStringCoverter.cs" />
     <Compile Include="Converters\OpacityBrushConverter.cs" />
+    <Compile Include="Converters\SharedVisibilityConverter.cs" />
     <Compile Include="DomainServices\ConnectionProviders\ForecastProvider.cs" />
     <Compile Include="DomainServices\ConnectionProviders\Interfaces\IForecastProvider.cs" />
     <Compile Include="DomainServices\CsvFileCreator.cs" />

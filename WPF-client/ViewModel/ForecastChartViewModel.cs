@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using Microsoft.Win32;
 using WPF_client.Domain.DomainModels;
@@ -44,6 +46,13 @@ namespace WPF_client.ViewModel
             _forecastProvider.OnForecastUpdated += OnForecastUpdated;
             _forecastProvider.OnConnectionLost += OnConnectionLosted;
             _forecastProvider.OnConnectionRestored += OnConnectionRestored;
+
+            var DangerBrush = new SolidColorBrush(Colors.Crimson);
+            Mapper = Mappers.Xy<Forecast>()
+                .X(item => item.ForecastTime.Ticks)
+                .Y(item => item.ForecastPower)
+                .Fill(item => item.IsForecast ? DangerBrush : null)
+                .Stroke(item => item.IsForecast ? DangerBrush : null);
         }
 
 
@@ -57,8 +66,8 @@ namespace WPF_client.ViewModel
                 var nexValue = MaxValueX;
                 if (IsDataSated)
                 {
-                    nexValue = Values.Where(x => x.DateTime.Ticks > minValue)
-                        .Min(x => x.DateTime).Ticks;
+                    nexValue = AllValues.Where(x => x.ForecastTime.Ticks > minValue)
+                        .Min(x => x.ForecastTime).Ticks;
                 }
                 return (nexValue - minValue) * 2;
             }
@@ -70,7 +79,7 @@ namespace WPF_client.ViewModel
             {
                 if (!IsDataSated)
                     return DateTime.Now.AddMinutes(1).Ticks;
-                return Values.Max(x => x.DateTime).Ticks;
+                return AllValues.Max(x => x.ForecastTime).Ticks;
             }
         }
         public long MinValueX
@@ -79,16 +88,49 @@ namespace WPF_client.ViewModel
             {
                 if (!IsDataSated)
                     return DateTime.Now.Ticks;
-                return Values.Min(x => x.DateTime).Ticks;
+                return AllValues.Min(x => x.ForecastTime).Ticks;
             }
         }
 
+        public CartesianMapper<Forecast> Mapper
+        {
+            get
+            {
+                return Get<CartesianMapper<Forecast>>();
+            }
+            set
+            {
+                Set(value);
+            }
+        }
 
-        public ChartValues<DateTimePoint> Values
+        public Func<double, string> ValueFormatter => x => x + " МВт";
+
+        public ChartValues<Forecast> AllValues
         {
             get
             {
                 if(!IsDataSated)
+                    return new ChartValues<Forecast>();
+                return Get<ChartValues<Forecast>>();
+            }
+            set
+            {
+                Set(value);
+                UpdateAxisParameters();
+                OnPropertyChanged(nameof(RealValues));
+                OnPropertyChanged(nameof(ForecastValues));
+                OnPropertyChanged(nameof(MaxRange));
+                OnPropertyChanged(nameof(MinRange));
+                OnPropertyChanged(nameof(MaxValueX));
+                OnPropertyChanged(nameof(MinValueX));
+            }
+        }
+        public ChartValues<DateTimePoint> RealValues
+        {
+            get
+            {
+                if (!IsDataSated)
                     return new ChartValues<DateTimePoint>();
                 return Get<ChartValues<DateTimePoint>>();
             }
@@ -96,6 +138,28 @@ namespace WPF_client.ViewModel
             {
                 Set(value);
                 UpdateAxisParameters();
+                OnPropertyChanged(nameof(AllValues));
+                OnPropertyChanged(nameof(ForecastValues));
+                OnPropertyChanged(nameof(MaxRange));
+                OnPropertyChanged(nameof(MinRange));
+                OnPropertyChanged(nameof(MaxValueX));
+                OnPropertyChanged(nameof(MinValueX));
+            }
+        }
+        public ChartValues<DateTimePoint> ForecastValues
+        {
+            get
+            {
+                if (!IsDataSated)
+                    return new ChartValues<DateTimePoint>();
+                return Get<ChartValues<DateTimePoint>>();
+            }
+            set
+            {
+                Set(value);
+                UpdateAxisParameters();
+                OnPropertyChanged(nameof(AllValues));
+                OnPropertyChanged(nameof(RealValues));
                 OnPropertyChanged(nameof(MaxRange));
                 OnPropertyChanged(nameof(MinRange));
                 OnPropertyChanged(nameof(MaxValueX));
@@ -215,9 +279,9 @@ namespace WPF_client.ViewModel
 
         private void UpdateAxisParameters()
         {
-            if (!Values.Any())
-                throw new Exception("Не заданна коллеция зачений графика");
-            if (Values.Count < 2)
+            if (!AllValues.Any())
+                throw new Exception("Не заданна коллеция значений графика");
+            if (AllValues.Count < 2)
                 throw new Exception("Размер коллекции менее двух значений не может быть корректно отображен");
 
             From = MinValueX;
@@ -228,6 +292,7 @@ namespace WPF_client.ViewModel
 
         private List<Forecast> GetForecastsForPeriod(IList<Forecast> forecasts)
         {
+            return forecasts.ToList();
             var minDate = forecasts.Min(x => x.ForecastTime);
             var maxDate = minDate.AddTicks(_timeSpanTicks);
             var selectedForecasts = forecasts.Where(x => x.ForecastTime < maxDate).ToList();
@@ -241,15 +306,30 @@ namespace WPF_client.ViewModel
             IsDataSated = true;
             _dialogController.IsDialogShown = false;
             var selectedForecasts = GetForecastsForPeriod(forecasts);
+            var forecastsAmount = selectedForecasts.Count;
 
-            var chartValues = new ChartValues<DateTimePoint>();
-            for (var i = 0; i < selectedForecasts.Count && i < 500; i++)
+            var chartValues = new ChartValues<Forecast>();
+            //var realValues = new ChartValues<DateTimePoint>();
+            //var forecastValues = new ChartValues<DateTimePoint>();
+            for (var i = 0; i < forecastsAmount && i < 500; i++)
             {
-                var forecast = selectedForecasts[i];
-                chartValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
+                chartValues.Add(selectedForecasts[i]);
+                //var forecast = selectedForecasts[i];
+                //chartValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
+
+                //if (forecast.IsForecast)
+                //    forecastValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
+                //else
+                //    realValues.Add(new DateTimePoint(forecast.ForecastTime, forecast.ForecastPower));
             }
 
-            Values = chartValues;
+            //var firstForecastDate = forecastValues.Min(x => x.DateTime);
+            //var firstForecast = realValues.Where(x => x.DateTime < firstForecastDate).OrderByDescending(x => x.DateTime).FirstOrDefault();
+            //forecastValues.Insert(0, firstForecast);
+
+            AllValues = chartValues;
+            //RealValues = realValues;
+            //ForecastValues = forecastValues;
         }
 
         private void OnConnectionLosted(object sender, ConnectionException updateError)

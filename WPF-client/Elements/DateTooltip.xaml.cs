@@ -8,14 +8,14 @@ using LiveCharts.Wpf;
 namespace WPF_client.Elements
 {
     /// <summary>
-    /// Interaction logic for DateTooltip.xaml - перегрузка DefaultTooltip
+    /// Interaction logic for DateTooltip.xaml - перегрузка DateTooltip
     /// </summary>
     public partial class DateTooltip : IChartTooltip
     {
         private TooltipData _data;
 
         /// <summary>
-        /// Initializes a new instance of DefaultTooltip class
+        /// Initializes a new instance of DateTooltip class
         /// </summary>
         public DateTooltip()
         {
@@ -25,7 +25,7 @@ namespace WPF_client.Elements
         }
 
         /// <summary>
-        /// Initializes the <see cref="DefaultTooltip"/> class.
+        /// Initializes the <see cref="DateTooltip"/> class.
         /// </summary>
         static DateTooltip()
         {

@@ -19,7 +19,7 @@
             <Setter Property="Foreground" Value="{Binding Foreground}"></Setter>
         </Style>
         <converters:DatePointToStringCoverter x:Key="DatePointToStringCoverter"/>
-        <liveChartWpf:SharedVisibilityConverter x:Key="SharedVisibilityConverter"/>
+        <converters:SharedVisibilityConverter x:Key="SharedVisibilityConverter"/>
         <liveChartWpf:ChartPointLabelConverter x:Key="ChartPointLabelConverter"/>
         <liveChartWpf:ParticipationVisibilityConverter x:Key="ParticipationVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="Bvc"></BooleanToVisibilityConverter>

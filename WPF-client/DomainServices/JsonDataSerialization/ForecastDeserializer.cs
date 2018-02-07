@@ -13,10 +13,6 @@ namespace WPF_client.DomainServices.JsonDataSerialization
             try
             {
                 //Вытаскиваем словарь прогнозов
-                var jsonDeserializeSettings = new JsonSerializerSettings()
-                {
-                    DateFormatString = "yyyy-MM-dd\\THH:mm:ss\\Z"
-                };
                 var jsonElements = JsonConvert.DeserializeObject<List<ForecastJsonData>>(jsonString);
                 if (jsonElements == null || jsonElements.Count == 0)
                     throw new JsonException("Не удалось найти ни одного объекта прогноза в JSON");
@@ -29,6 +25,7 @@ namespace WPF_client.DomainServices.JsonDataSerialization
                     {
                         ForecastPower = forecastData.ap,
                         ForecastTime = forecastData.time,
+                        IsForecast = forecastData.is_predict
                     });
                 }
 

@@ -49,20 +49,22 @@
                 </Style>
             </liveChart:CartesianChart.Resources>
             <liveChart:CartesianChart.DataTooltip>
-                <elements:DateTooltip/>
+                <elements:DateTooltip SelectionMode="OnlySender"/>
             </liveChart:CartesianChart.DataTooltip>
             <liveChart:CartesianChart.Series>
-                <liveChart:LineSeries   Title="Прогноз:"
-                                                StrokeThickness="2" 
-                                                Stroke="#2194F1"
-                                                Values="{Binding Values}"
+                <liveChart:LineSeries   Title="Значение:"
+                                                StrokeThickness="3" 
+
+                                                Values="{Binding AllValues}"
                                                 AreaLimit="0"
-                                                PointGeometrySize="8">
-                    <liveChart:LineSeries.Fill>
-                        <SolidColorBrush Color="#2194F1" Opacity=".5"/>
-                    </liveChart:LineSeries.Fill>
+                                                PointGeometrySize="12"
+                                                Fill="Transparent"
+                                                Configuration="{Binding Mapper}">
                 </liveChart:LineSeries>
             </liveChart:CartesianChart.Series>
+            <liveChart:CartesianChart.AxisY>
+                <liveChart:Axis LabelFormatter="{Binding ValueFormatter}"/>
+            </liveChart:CartesianChart.AxisY>
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis LabelFormatter="{Binding Formatter}" 
                                         RangeChanged="Axis_OnRangeChanged" 
@@ -91,11 +93,12 @@
                 </Style>
             </liveChart:CartesianChart.Resources>
             <liveChart:CartesianChart.Series>
-                <liveChart:LineSeries Values="{Binding Values}"
+                <liveChart:LineSeries Values="{Binding AllValues}"
                                             Fill="{DynamicResource MaterialDesignCheckBoxDisabled}"
                                             StrokeThickness="0"
                                             PointGeometry="{x:Null}"
-                                            AreaLimit="0"/>
+                                            AreaLimit="0"
+                                            Configuration="{Binding Mapper}"/>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis IsMerged="True" 

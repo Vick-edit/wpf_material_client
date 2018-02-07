@@ -9,6 +9,7 @@ namespace WPF_client.DomainServices.JsonDataSerialization.MapingObjects
         public long id { get; set; }
         public double ap { get; set; }
         public DateTime time { get; set; }
+        public bool is_predict { get; set; }
 
         /*
         public int day { get; set; }
