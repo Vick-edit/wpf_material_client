@@ -21,7 +21,7 @@ namespace WPF_client.ViewProduction.Builders
 
             var forecastDeserializer = new ForecastDeserializer();
             var forecastConnection = new ForecastConnection(forecastDeserializer);
-            _forecastProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(15));
+            _forecastProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(5));
             _csvFileCreator = new CsvFileCreator();
         }
 
