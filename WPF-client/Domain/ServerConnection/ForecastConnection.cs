@@ -9,10 +9,10 @@ namespace WPF_client.Domain.ServerConnection
     /// <summary> Класс подключения к серверу для получения данных погноза </summary>
     public class ForecastConnection : IForecastConnection
     {
-        private readonly IJsonDeserializer<Forecast> _jsonDeserializer;
+        private readonly IJsonSingleObjectDeserializer<ForecastBlock> _jsonDeserializer;
         private readonly RestClient _restClient;
 
-        public ForecastConnection(IJsonDeserializer<Forecast> jsonDeserializer)
+        public ForecastConnection(IJsonSingleObjectDeserializer<ForecastBlock> jsonDeserializer)
         {
             _jsonDeserializer = jsonDeserializer;
             _restClient = new RestClient(ServerUrl.ServerName);
@@ -20,9 +20,8 @@ namespace WPF_client.Domain.ServerConnection
 
 
         /// <summary> Метод, который получает свежую порцию данных с сервера </summary>
-        public IList<Forecast> GetForecasts()
+        public ForecastBlock GetForecasts()
         {
-
             var jsonData = GetJsonForecast();
             var forecastsData = _jsonDeserializer.Deserialize(jsonData);
             return forecastsData;

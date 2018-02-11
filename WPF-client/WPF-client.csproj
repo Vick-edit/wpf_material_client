@@ -102,9 +102,11 @@
     <Compile Include="DomainServices\JsonDataSerialization\ForecastDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\ForecastObjectDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonDeserializer.cs" />
+    <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonSingleObjectDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonData.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonObject.cs" />
     <Compile Include="Domain\DomainModels\Forecast.cs" />
+    <Compile Include="Domain\DomainModels\ForecastBlock.cs" />
     <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
     <Compile Include="Domain\ServerConnection\GetForecastObjects.cs" />
     <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />

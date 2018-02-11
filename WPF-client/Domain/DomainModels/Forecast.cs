@@ -8,6 +8,8 @@ namespace WPF_client.Domain.DomainModels
         public DateTime ForecastTime { get; set; }
         public bool IsForecast { get; set; }
 
+        public bool IsFakeValue { get; set; }
+
         public int DaySerialNumber { get; set; }
         public int WeekSerialNumber { get; set; }
         public int DayOfWeekNumber { get; set; }

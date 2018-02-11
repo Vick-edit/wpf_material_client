@@ -24,11 +24,9 @@ namespace WPF_client
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            var parentException = e.Exception;
-            while (parentException?.InnerException != null)
-                parentException = parentException.InnerException;
+            var mainException = e.Exception?.InnerException ?? e.Exception;
 
-            MessageBox.Show("An unhandled exception just occurred:\r\n" + parentException?.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("An unhandled exception just occurred:\r\n" + mainException?.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
             ExceptionLogger.Log(e.Exception);
         }
 

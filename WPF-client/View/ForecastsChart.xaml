@@ -22,21 +22,26 @@
     </i:Interaction.Triggers>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".89*"></ColumnDefinition>
+            <ColumnDefinition Width=".11*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"></TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></TextBlock>
         <elements:HiddenContextMenu  x:Name="HiddenContextMenu"
                                      HorizontalAlignment="Right" VerticalAlignment="Center"
-                                     Grid.Row="0">
+                                     Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel IsEnabled="{Binding IsDataSated, Mode=OneWay}">
                 <Button Content="Выгрузить данные в csv" Command="{Binding SaveToCsvCommand}"/>
             </StackPanel>
         </elements:HiddenContextMenu>
 
-        <liveChart:CartesianChart x:Name="ForecastChart" Grid.Row="1" Zoom="X" DisableAnimations="True">
+        <liveChart:CartesianChart x:Name="ForecastChart" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                  Zoom="X" DisableAnimations="True">
             <liveChart:CartesianChart.Resources>
                 <Style TargetType="liveChart:Separator">
                     <Setter Property="StrokeThickness" Value="2.5"></Setter>
@@ -54,19 +59,31 @@
             <liveChart:CartesianChart.Series>
                 <liveChart:LineSeries   Title="Значение:"
                                                 StrokeThickness="3" 
-
-                                                Values="{Binding AllValues}"
+                                                Stroke="#2194F1"
+                                                Values="{Binding MeasurementsValues}"
                                                 AreaLimit="0"
                                                 PointGeometrySize="12"
                                                 Fill="Transparent"
-                                                Configuration="{Binding Mapper}">
+                                                Configuration="{Binding AllDataMapper, Mode=OneTime}">
+                </liveChart:LineSeries>
+                <liveChart:LineSeries   Title="Прогноз:"
+                                                StrokeThickness="3" 
+                                                Stroke="Red"
+                                                Values="{Binding ForecastValues}"
+                                                AreaLimit="0"
+                                                PointGeometrySize="12"
+                                                Fill="Transparent"
+                                                Configuration="{Binding AllDataMapper, Mode=OneTime}">
                 </liveChart:LineSeries>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisY>
-                <liveChart:Axis LabelFormatter="{Binding ValueFormatter}"/>
+                <liveChart:Axis x:Name="YAxis" 
+                                LabelFormatter="{Binding ValueFormatter}"
+                                MinValue="{Binding MinValueY}"
+                                MaxValue="{Binding MaxValueY}"/>
             </liveChart:CartesianChart.AxisY>
             <liveChart:CartesianChart.AxisX>
-                <liveChart:Axis LabelFormatter="{Binding Formatter}" 
+                <liveChart:Axis LabelFormatter="{Binding DateFormatter}" 
                                         RangeChanged="Axis_OnRangeChanged" 
                                         PreviewRangeChanged="Axis_OnPreviewRangeChanged" 
                                         MinRange="{Binding MinRange, Mode=OneWay}"
@@ -76,7 +93,34 @@
                                         Separator="{x:Static liveChart:DefaultAxes.CleanSeparator}"/>
             </liveChart:CartesianChart.AxisX>
         </liveChart:CartesianChart>
-        <liveChart:CartesianChart Grid.Row="2" DisableAnimations="True" 
+        <Border Grid.Row="1" Grid.Column="1"
+                Margin="0,0,0,20"
+                BorderThickness="2"
+                VerticalAlignment="Bottom"
+                Height="100" 
+                BorderBrush="{wpf:DynamicResourceBinding MaterialDesignSnackbarBackground, 
+                                Converter={StaticResource OpacityBrushConverter}, 
+                                ConverterParameter=0.17
+                            }" >
+            <StackPanel Background="{wpf:DynamicResourceBinding MaterialDesignSnackbarBackground, 
+                                Converter={StaticResource OpacityBrushConverter}, 
+                                ConverterParameter=0.2
+                            }" >
+                <TextBlock Foreground="{wpf:DynamicResourceBinding MaterialDesignBody, 
+                                                Converter={StaticResource OpacityBrushConverter}, 
+                                                ConverterParameter=0.6
+                                              }" 
+                           FontSize="16" HorizontalAlignment="Center" Margin="0,20,0,0"
+                           Text="{Binding ConsumptionDate, StringFormat={}Прогноз на {0}:}"/>
+                <TextBlock Foreground="{wpf:DynamicResourceBinding MaterialDesignBody, 
+                                                Converter={StaticResource OpacityBrushConverter}, 
+                                                ConverterParameter=0.7
+                                              }" 
+                           FontSize="30" HorizontalAlignment="Center"
+                           Text="{Binding Consumption, StringFormat={}{0} кВт\ч}"/>
+            </StackPanel>
+        </Border>
+        <liveChart:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" DisableAnimations="True" 
                                             ScrollMode="X" 
                                             ScrollHorizontalFrom="{Binding From, Mode=TwoWay}"
                                             ScrollHorizontalTo="{Binding To, Mode=TwoWay}"
@@ -93,16 +137,16 @@
                 </Style>
             </liveChart:CartesianChart.Resources>
             <liveChart:CartesianChart.Series>
-                <liveChart:LineSeries Values="{Binding AllValues}"
+                <liveChart:LineSeries Values="{Binding ChartForecastValues}"
                                             Fill="{DynamicResource MaterialDesignCheckBoxDisabled}"
                                             StrokeThickness="0"
                                             PointGeometry="{x:Null}"
                                             AreaLimit="0"
-                                            Configuration="{Binding Mapper}"/>
+                                            Configuration="{Binding AllDataMapper, Mode=OneTime}"/>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>
                 <liveChart:Axis IsMerged="True" 
-                                          LabelFormatter="{Binding Formatter, Mode=OneTime}" 
+                                          LabelFormatter="{Binding SimpleDateFormatter, Mode=OneTime}" 
                                           Foreground="{wpf:DynamicResourceBinding MaterialDesignBody, 
                                             Converter={StaticResource OpacityBrushConverter}, 
                                             ConverterParameter=0.6

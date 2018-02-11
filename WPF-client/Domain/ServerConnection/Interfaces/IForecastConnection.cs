@@ -7,6 +7,6 @@ namespace WPF_client.Domain.ServerConnection
     public interface IForecastConnection
     {
         /// <summary> Метод, который получает свежую порцию данных с сервера </summary>
-        IList<Forecast> GetForecasts();
+        ForecastBlock GetForecasts();
     }
 }

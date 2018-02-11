@@ -17,15 +17,15 @@ namespace WPF_client.DomainServices.ConnectionProviders
         public event ForecastConnectionSuccess OnConnectionRestored;
 
         private readonly ReaderWriterLockSlim _forecastsLock = new ReaderWriterLockSlim();
-        private IList<Forecast> _forecasts;
-        public IList<Forecast> Forecasts
+        private ForecastBlock _forecastsBlock;
+        public ForecastBlock ForecastsBlock
         {
             get
             {
                 _forecastsLock.EnterReadLock();
                 try
                 {
-                    return _forecasts;
+                    return _forecastsBlock;
                 }
                 finally 
                 {
@@ -37,7 +37,7 @@ namespace WPF_client.DomainServices.ConnectionProviders
                 _forecastsLock.EnterWriteLock();
                 try
                 {
-                    _forecasts = value;
+                    _forecastsBlock = value;
                 }
                 finally
                 {
@@ -86,8 +86,8 @@ namespace WPF_client.DomainServices.ConnectionProviders
         {
             try
             {
-                Forecasts = _forecastConnection.GetForecasts();
-                OnForecastUpdated?.Invoke(this, Forecasts);
+                ForecastsBlock = _forecastConnection.GetForecasts();
+                OnForecastUpdated?.Invoke(this, ForecastsBlock);
             }
             catch (ConnectionException e)
             {

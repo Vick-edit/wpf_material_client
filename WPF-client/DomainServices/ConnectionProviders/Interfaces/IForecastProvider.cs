@@ -11,7 +11,7 @@ namespace WPF_client.DomainServices.ConnectionProviders
         event ForecastConnectionError OnConnectionLost;
         event ForecastConnectionSuccess OnConnectionRestored;
 
-        IList<Forecast> Forecasts { get; }
+        ForecastBlock ForecastsBlock { get; }
 
         void StartWatchingForUpdates();
         void StopWatchingForUpdates();

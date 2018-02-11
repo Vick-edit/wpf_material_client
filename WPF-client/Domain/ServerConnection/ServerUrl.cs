@@ -2,7 +2,7 @@
 {
     public static class ServerUrl
     {
-        public static readonly string ServerName = "http://1b8abb65.ngrok.io";
+        public static readonly string ServerName = "http://cbd4b7e9.ngrok.io";
 
         public static readonly string ForecastsObject = "localities";
 

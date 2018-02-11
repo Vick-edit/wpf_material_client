@@ -53,8 +53,8 @@ namespace WPF_client.View
         #region EventHandlers
         private void Axis_OnRangeChanged(RangeChangedEventArgs eventargs)
         {
-            var viewModel = ExtractViewModel();
-            viewModel.UpdateFormatter(eventargs.Range);
+            /*var viewModel = ExtractViewModel();
+            viewModel.UpdateFormatter(eventargs.Range);*/
         }
 
         private void Axis_OnPreviewRangeChanged(PreviewRangeChangedEventArgs e)
