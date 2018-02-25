@@ -10,7 +10,7 @@ using WPF_client.ViewModel;
 
 namespace WPF_client.ViewProduction.Builders
 {
-    public class WeekForecastPageBuilder : BasePageBuilder, IPageBuilder
+    public class YerForecastPageBuilder : BasePageBuilder, IPageBuilder
     {
         private IForecastProvider _forecastProvider;
         private ICsvFileCreator _csvFileCreator;

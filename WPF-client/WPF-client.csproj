@@ -145,7 +145,7 @@
     <Compile Include="ViewProduction\Builders\ForecastObjectPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\MonthForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\PaletteSelectoPageBuilder.cs" />
-    <Compile Include="ViewProduction\Builders\WeekForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\YerForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Interfaces\IPageBuilder.cs" />
     <Compile Include="ViewProduction\Interfaces\IPageBuilderDirector.cs" />
     <Compile Include="ViewProduction\Interfaces\IViewFactory.cs" />

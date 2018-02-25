@@ -10,7 +10,7 @@ namespace WPF_client.Domain.ServerConnection
 
         public static readonly string ForecastsObject = "localities";
 
-        public static readonly string ForecastsData = "predict/{id}";
+        public static readonly string ForecastsData = "predict/day/{id}";
 
         private static string GetServerName()
         {

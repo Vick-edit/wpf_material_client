@@ -19,9 +19,9 @@ namespace WPF_client.ViewModel
             {
                 builderDirector.GetPageContentItem("Объект прогнозирования", new ForecastObjectPageBuilder()),
 
-                builderDirector.GetPageContentItem("Прогноз на месяц", new MonthForecastPageBuilder()),
-                builderDirector.GetPageContentItem("Прогноз на неделю", new WeekForecastPageBuilder()),
-                builderDirector.GetPageContentItem("Прогноз на один день", new DayForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз по дням", new DayForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз по месяцам", new MonthForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз по годам", new YerForecastPageBuilder()),
 
                 builderDirector.GetPageContentItem("Цветовая тема", new PaletteSelectoPageBuilder()),
             };
