@@ -4,13 +4,14 @@ using WPF_client.DomainServices;
 using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.JsonDataSerialization;
 using WPF_client.Elements;
+using WPF_client.Utilities.Formaters;
 using WPF_client.Utilities.WPF.ElementControllers;
 using WPF_client.View;
 using WPF_client.ViewModel;
 
-namespace WPF_client.ViewProduction.Builders
+namespace WPF_client.ViewProduction.Builders.Forecasts
 {
-    public class MonthForecastPageBuilder : BasePageBuilder, IPageBuilder
+    public abstract class BaseForecastPageBuilder : BasePageBuilder, IPageBuilder
     {
         private IForecastProvider _forecastProvider;
         private ICsvFileCreator _csvFileCreator;
@@ -19,9 +20,8 @@ namespace WPF_client.ViewProduction.Builders
         {
             base.SetupBuisnesLogic();
 
-            var forecastDeserializer = new ForecastDeserializer();
-            var forecastConnection = new ForecastConnection(forecastDeserializer);
-            _forecastProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
+            var forecastConnection = GetForecastConnection();
+            _forecastProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(5));
             _csvFileCreator = new CsvFileCreator();
         }
 
@@ -35,9 +35,10 @@ namespace WPF_client.ViewProduction.Builders
             var dialogElement = new ConnectionError();
             DialogController = new DialogController(dialogElement);
 
-            var forecastPeriod = TimeSpan.FromDays(30);
+            var formater = GetTimeFormater();
+            var forecastPeriod = TimeSpan.FromDays(1);
 
-            ViewModel = new MainChartViewModel(_forecastProvider, DialogController, _csvFileCreator, forecastPeriod);
+            ViewModel = new MainChartViewModel(_forecastProvider, DialogController, _csvFileCreator, formater, forecastPeriod);
         }
 
         public override void SetupView()
@@ -52,11 +53,8 @@ namespace WPF_client.ViewProduction.Builders
             ViewElement = view;
         }
 
-        public override PageContentItem GetNewPage(string pageName)
-        {
-            var newPage = base.GetNewPage(pageName);
-            newPage.IsActive = false;
-            return newPage;
-        }
+        protected abstract IForecastConnection GetForecastConnection();
+
+        protected abstract IFormater GetTimeFormater();
     }
 }

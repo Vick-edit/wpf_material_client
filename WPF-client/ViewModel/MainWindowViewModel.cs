@@ -4,6 +4,7 @@ using WPF_client.Elements;
 using WPF_client.Utilities;
 using WPF_client.ViewProduction;
 using WPF_client.ViewProduction.Builders;
+using WPF_client.ViewProduction.Builders.Forecasts;
 
 namespace WPF_client.ViewModel
 {
@@ -20,6 +21,7 @@ namespace WPF_client.ViewModel
                 builderDirector.GetPageContentItem("Объект прогнозирования", new ForecastObjectPageBuilder()),
 
                 builderDirector.GetPageContentItem("Прогноз по дням", new DayForecastPageBuilder()),
+                builderDirector.GetPageContentItem("Прогноз по неделям", new WeekForecastPageBuilder()),
                 builderDirector.GetPageContentItem("Прогноз по месяцам", new MonthForecastPageBuilder()),
                 builderDirector.GetPageContentItem("Прогноз по годам", new YerForecastPageBuilder()),
 

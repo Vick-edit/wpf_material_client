@@ -12,6 +12,7 @@ namespace WPF_client.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             DateTime tooltipDate;
+            double dateValue;
 
             var tooltipData = value as TooltipData;
             if (tooltipData == null) return null;
@@ -21,12 +22,14 @@ namespace WPF_client.Converters
                 var chartPoint = tooltipData.Points?.FirstOrDefault()?.ChartPoint;
                 if (chartPoint == null) return string.Empty;
 
+                dateValue = chartPoint.X;
                 tooltipDate = new DateTime((long) chartPoint.X);
             }
             else
             {
                 if (tooltipData.SharedValue == null) return string.Empty;
 
+                dateValue = tooltipData.SharedValue.Value;
                 tooltipDate = new DateTime((long)tooltipData.SharedValue);
             }
 
@@ -37,6 +40,8 @@ namespace WPF_client.Converters
               && tooltipDate.Second == 0
               && tooltipDate.Millisecond == 0;
             var dateFormat = isBeginOfDay ? "dd MMM yyyy" : "dd MMM yyyy - HH:MM";
+
+            return tooltipData.XFormatter(dateValue);
 
             return tooltipDate.ToString(dateFormat);
         }

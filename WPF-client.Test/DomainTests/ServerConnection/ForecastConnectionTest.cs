@@ -12,7 +12,7 @@ namespace WPF_client.Test.Domain.ServerConnection
         {
             //arrange
             var parser = new ForecastDeserializer();
-            var connection = new ForecastConnection(parser);
+            var connection = new ForecastConnection(parser, ForecastSize.ByDay);
 
             //act
             var forecasts = connection.GetForecasts();

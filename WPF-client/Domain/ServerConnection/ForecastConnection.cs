@@ -11,9 +11,11 @@ namespace WPF_client.Domain.ServerConnection
     {
         private readonly IJsonSingleObjectDeserializer<ForecastBlock> _jsonDeserializer;
         private readonly RestClient _restClient;
+        private readonly ForecastSize _forecastSize;
 
-        public ForecastConnection(IJsonSingleObjectDeserializer<ForecastBlock> jsonDeserializer)
+        public ForecastConnection(IJsonSingleObjectDeserializer<ForecastBlock> jsonDeserializer, ForecastSize forecastSize)
         {
+            _forecastSize = forecastSize;
             _jsonDeserializer = jsonDeserializer;
             _restClient = new RestClient(ServerUrl.ServerName);
         }
@@ -47,7 +49,7 @@ namespace WPF_client.Domain.ServerConnection
             throw  new ConnectionException("local");
             */
 
-            var request = new RestRequest(ServerUrl.ForecastsData, Method.GET);
+            var request = new RestRequest(ServerUrl.ForecastsUris[_forecastSize], Method.GET);
             request.AddUrlSegment("id", Session.Instance.ActiveForecastObjectId.ToString());
             var response = _restClient.Execute(request);
             return response.Content;

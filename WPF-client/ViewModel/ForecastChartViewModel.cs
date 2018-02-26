@@ -14,6 +14,7 @@ using WPF_client.DomainServices.ConnectionProviders;
 using WPF_client.DomainServices.Events;
 using WPF_client.DomainServices.Exceptions;
 using WPF_client.Utilities;
+using WPF_client.Utilities.Formaters;
 using WPF_client.Utilities.WPF.Commands;
 using WPF_client.Utilities.WPF.ElementControllers;
 
@@ -40,8 +41,8 @@ namespace WPF_client.ViewModel
         }
 
         private readonly Func<double, string> valueFormatter = y => y + " КВт";
-        private readonly Func<double, string> dateFormatter = x => new DateTime((long)x).ToString("ddd, dd MMM yy");
-        private readonly Func<double, string> simpleDateFormatter = x => new DateTime((long)x).ToString("dd MMM yy");
+        private readonly Func<double, string> dateFormatter;
+        private readonly Func<double, string> simpleDateFormatter;
 
         private const double RangeMaxScale = 1.1;
         private readonly double _startScale;
@@ -52,7 +53,7 @@ namespace WPF_client.ViewModel
 
         private readonly long _timeSpanTicks;
         public MainChartViewModel(IForecastProvider forecastProvider, IDialogController dialogController, 
-            ICsvFileCreator csvFileCreator, TimeSpan timeSpan)
+            ICsvFileCreator csvFileCreator, IFormater formater, TimeSpan timeSpan)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
@@ -66,6 +67,9 @@ namespace WPF_client.ViewModel
             _forecastProvider.OnForecastUpdated += OnForecastUpdated;
             _forecastProvider.OnConnectionLost += OnConnectionLosted;
             _forecastProvider.OnConnectionRestored += OnConnectionRestored;
+
+            dateFormatter = formater.DateFormatter;
+            simpleDateFormatter = formater.SimpleDateFormatter;
 
 
             ForecastMapper = Mappers.Xy<Forecast>()
@@ -122,7 +126,11 @@ namespace WPF_client.ViewModel
             {
                 if (!IsDataSated)
                     return double.MaxValue;
-                return ChartForecastValues.Max(x => x.ForecastPower);
+                if (ChartForecastValues.Max(x => x.ForecastPower) - ChartForecastValues.Min(x => x.ForecastPower) < 1)
+                {
+                    return ChartForecastValues.Max(x => x.ForecastPower) + 1;
+                }
+                return ChartForecastValues.Max(x => x.ForecastPower)*(1 + (1 - ChartForecastValues.Min(x => x.ForecastPower)/ChartForecastValues.Max(x => x.ForecastPower)) *0.15);
             }
         }
         public double MinValueY
@@ -131,7 +139,11 @@ namespace WPF_client.ViewModel
             {
                 if (!IsDataSated)
                     return double.MinValue;
-                return ChartForecastValues.Min(x => x.ForecastPower);
+                if (ChartForecastValues.Max(x => x.ForecastPower) - ChartForecastValues.Min(x => x.ForecastPower) < 1)
+                {
+                    return ChartForecastValues.Min(x => x.ForecastPower) - 1;
+                }
+                return ChartForecastValues.Min(x => x.ForecastPower)*(1-(ChartForecastValues.Max(x => x.ForecastPower)/ ChartForecastValues.Min(x => x.ForecastPower) - 1) *0.15);
             }
         }
 

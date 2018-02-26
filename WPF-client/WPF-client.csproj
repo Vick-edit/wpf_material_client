@@ -108,6 +108,7 @@
     <Compile Include="Domain\DomainModels\Forecast.cs" />
     <Compile Include="Domain\DomainModels\ForecastBlock.cs" />
     <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
+    <Compile Include="Domain\ServerConnection\ForecastSize.cs" />
     <Compile Include="Domain\ServerConnection\GetForecastObjects.cs" />
     <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />
     <Compile Include="Domain\ServerConnection\Interfaces\IGetCommand.cs" />
@@ -123,6 +124,11 @@
       <DependentUpon>Palette.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\HandleDisposableViewModelExtension.cs" />
+    <Compile Include="Utilities\Formaters\FormaterDay.cs" />
+    <Compile Include="Utilities\Formaters\FormaterMonth.cs" />
+    <Compile Include="Utilities\Formaters\FormaterWeek.cs" />
+    <Compile Include="Utilities\Formaters\FormaterYear.cs" />
+    <Compile Include="Utilities\Formaters\IFormater.cs" />
     <Compile Include="Utilities\Session.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
@@ -141,11 +147,13 @@
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewProduction\Builders\BasePageBuilder.cs" />
-    <Compile Include="ViewProduction\Builders\DayForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\Forecasts\BaseForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\Forecasts\DayForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\ForecastObjectPageBuilder.cs" />
-    <Compile Include="ViewProduction\Builders\MonthForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\Forecasts\MonthForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\Forecasts\WeekForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Builders\PaletteSelectoPageBuilder.cs" />
-    <Compile Include="ViewProduction\Builders\YerForecastPageBuilder.cs" />
+    <Compile Include="ViewProduction\Builders\Forecasts\YerForecastPageBuilder.cs" />
     <Compile Include="ViewProduction\Interfaces\IPageBuilder.cs" />
     <Compile Include="ViewProduction\Interfaces\IPageBuilderDirector.cs" />
     <Compile Include="ViewProduction\Interfaces\IViewFactory.cs" />

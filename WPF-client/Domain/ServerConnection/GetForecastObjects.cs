@@ -18,7 +18,7 @@ namespace WPF_client.Domain.ServerConnection
 
         public IList<ForecastJsonObject> GetDataFromServer()
         {
-            var request = new RestRequest(ServerUrl.ForecastsObject, Method.GET);
+            var request = new RestRequest(ServerUrl.ForecastsObjectUri, Method.GET);
             var response = _restClient.Execute(request);
             var forecastsObjects = _jsonDeserializer.Deserialize(response.Content);
             return forecastsObjects;
