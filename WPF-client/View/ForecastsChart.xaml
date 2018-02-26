@@ -117,7 +117,7 @@
                                                 ConverterParameter=0.7
                                               }" 
                            FontSize="30" HorizontalAlignment="Center"
-                           Text="{Binding Consumption, StringFormat={}{0} кВт\ч}"/>
+                           Text="{Binding Consumption, StringFormat={}{0} кВт}"/>
             </StackPanel>
         </Border>
         <liveChart:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" DisableAnimations="True" 
