@@ -1,14 +1,13 @@
 using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using LiveCharts;
 using LiveCharts.Wpf;
 
 namespace WPF_client.Converters
 {
-    /// <summary> Конвертер, поерделяющий отображать заголовок или нет. </summary>
+    /// <summary> Конвертер, поерделяющий отображать заголовок <see cref="DateTooltip"/> или нет. </summary>
     public class SharedVisibilityConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -23,7 +22,7 @@ namespace WPF_client.Converters
             bool.TryParse(values[1]?.ToString(), out showTitle);
             if (!showTitle) return visabilityNever;
 
-            //Проверим, что тултип получил подходящего формата данные
+            //Проверим, что тултип получил данные подходящего формата 
             var tooltipData = values[0] as TooltipData;
             if (tooltipData == null) return visabilityNever;
             if (tooltipData.SharedValue == null && tooltipData.SelectionMode != TooltipSelectionMode.OnlySender) return visabilityNever;
@@ -31,6 +30,7 @@ namespace WPF_client.Converters
             return Visibility.Visible;
         }
 
+        /// <summary> <see cref="NotImplementedException"/> </summary>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

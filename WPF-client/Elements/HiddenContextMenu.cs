@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 
 namespace WPF_client.Elements
 {
+    /// <summary> Меню для страницы, данные из которого будут подтянуты в меню верхнего уровня, но само по себе меню будет скрыто на странице </summary>
     public class HiddenContextMenu : PopupBox
     {
         public HiddenContextMenu()

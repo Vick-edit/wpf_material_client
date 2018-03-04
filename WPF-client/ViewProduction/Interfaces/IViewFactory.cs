@@ -1,6 +1,6 @@
 ﻿using WPF_client.View;
 
-namespace WPF_client.ViewProduction
+namespace WPF_client.ViewProduction.Interfaces
 {
     /// <summary> Интерфейс фабрики вьюшек </summary>
     public interface IViewFactory

@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
-using LiveCharts.Defaults;
 using Microsoft.Win32;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices;
-using WPF_client.DomainServices.ConnectionProviders;
-using WPF_client.DomainServices.Events;
 using WPF_client.DomainServices.Exceptions;
 using WPF_client.Utilities;
 using WPF_client.Utilities.Formaters;
 using WPF_client.Utilities.WPF.Commands;
 using WPF_client.Utilities.WPF.ElementControllers;
+using WPF_client.WPFServices.DataProviderWrappers;
+using WPF_client.WPFServices.Events;
 
 namespace WPF_client.ViewModel
 {
@@ -53,7 +51,7 @@ namespace WPF_client.ViewModel
 
         private readonly long _timeSpanTicks;
         public MainChartViewModel(IForecastProvider forecastProvider, IDialogController dialogController, 
-            ICsvFileCreator csvFileCreator, IFormater formater, TimeSpan timeSpan)
+            ICsvFileCreator csvFileCreator, IDateFormater dateFormater, TimeSpan timeSpan)
         {
             //Один шаг зума увеличивает на 0,8 текущего диапозона, отсчитаем 3 зума назад
             _startScale = Math.Round(RangeMaxScale/1.8/1.8, 3);
@@ -68,8 +66,8 @@ namespace WPF_client.ViewModel
             _forecastProvider.OnConnectionLost += OnConnectionLosted;
             _forecastProvider.OnConnectionRestored += OnConnectionRestored;
 
-            dateFormatter = formater.DateFormatter;
-            simpleDateFormatter = formater.SimpleDateFormatter;
+            dateFormatter = dateFormater.DateFormatter;
+            simpleDateFormatter = dateFormater.SimpleDateFormatter;
 
 
             ForecastMapper = Mappers.Xy<Forecast>()

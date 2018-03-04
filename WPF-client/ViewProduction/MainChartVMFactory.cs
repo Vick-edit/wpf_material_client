@@ -1,14 +1,4 @@
-﻿using System;
-using WPF_client.Domain.ServerConnection;
-using WPF_client.DomainServices;
-using WPF_client.DomainServices.ConnectionProviders;
-using WPF_client.DomainServices.JsonDataSerialization;
-using WPF_client.Elements;
-using WPF_client.Utilities.WPF.ElementControllers;
-using WPF_client.View;
-using WPF_client.ViewModel;
-
-namespace WPF_client.ViewProduction
+﻿namespace WPF_client.ViewProduction
 {
     //public class MainViewFactory : IViewFactory
     //{
@@ -16,7 +6,7 @@ namespace WPF_client.ViewProduction
     //    public ForecastsChart GetMonthForecastView()
     //    {
     //        var forecastDeserializer = new ForecastDeserializer();
-    //        var forecastConnection = new ForecastConnection(forecastDeserializer);
+    //        var forecastConnection = new GetForecastBlock(forecastDeserializer);
     //        var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
     //        var csvFileCreator = new CsvFileCreator();
 
@@ -33,7 +23,7 @@ namespace WPF_client.ViewProduction
     //    public ForecastsChart GetWeekForecast()
     //    {
     //        var forecastDeserializer = new ForecastDeserializer();
-    //        var forecastConnection = new ForecastConnection(forecastDeserializer);
+    //        var forecastConnection = new GetForecastBlock(forecastDeserializer);
     //        var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromDays(1));
     //        var csvFileCreator = new CsvFileCreator();
 
@@ -50,7 +40,7 @@ namespace WPF_client.ViewProduction
     //    public ForecastsChart GetDayForecast()
     //    {
     //        var forecastDeserializer = new ForecastDeserializer();
-    //        var forecastConnection = new ForecastConnection(forecastDeserializer);
+    //        var forecastConnection = new GetForecastBlock(forecastDeserializer);
     //        var forecastConnetionProvider = new ForecastProvider(forecastConnection, TimeSpan.FromMinutes(15));
     //        var csvFileCreator = new CsvFileCreator();
 

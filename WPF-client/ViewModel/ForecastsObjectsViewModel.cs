@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 using WPF_client.Domain.DomainModels;
-using WPF_client.Domain.ServerConnection;
 using WPF_client.DomainServices.JsonDataSerialization.MapingObjects;
+using WPF_client.DomainServices.ServerDataProviders;
 using WPF_client.Utilities;
 using WPF_client.Utilities.WPF.ElementControllers;
 
@@ -16,17 +14,17 @@ namespace WPF_client.ViewModel
 {
     public class ForecastsObjectsViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private readonly IGetCommand<ForecastJsonObject> _forecastObjectProvider;
+        private readonly IGetListRequest<ForecastObject> _forecastObjectProvider;
         private readonly IDialogController _dialogController;
 
-        public ForecastsObjectsViewModel(IGetCommand<ForecastJsonObject> forecastObjectProvider, IDialogController dialogController)
+        public ForecastsObjectsViewModel(IGetListRequest<ForecastObject> forecastObjectProvider, IDialogController dialogController)
         {
             _forecastObjectProvider = forecastObjectProvider;
             _dialogController = dialogController;
         }
 
-        private List<ForecastJsonObject> _forecastObjects;
-        public List<ForecastJsonObject> ForecastObjects
+        private List<ForecastObject> _forecastObjects;
+        public List<ForecastObject> ForecastObjects
         {
             get
             {
@@ -48,19 +46,19 @@ namespace WPF_client.ViewModel
             }
         }
 
-        public ForecastJsonObject SelectedItem
+        public ForecastObject SelectedItem
         {
-            get { return Get<ForecastJsonObject>(); }
+            get { return Get<ForecastObject>(); }
             set
             {
                 Set(value);
-                Session.Instance.ActiveForecastObjectId = value.id;
+                Session.Instance.ActiveForecastObjectId = value.Id;
             }
         }
 
-        private List<ForecastJsonObject> GetForecastsObjects()
+        private List<ForecastObject> GetForecastsObjects()
         {
-            IList<ForecastJsonObject> forecastObjects = null;
+            IList<ForecastObject> forecastObjects = null;
 
             try
             {
@@ -83,7 +81,7 @@ namespace WPF_client.ViewModel
 
         private void SetUpAfterError()
         {
-            IList<ForecastJsonObject> forecastObjects = null;
+            IList<ForecastObject> forecastObjects = null;
             var isError = true;
             while (isError)
             {

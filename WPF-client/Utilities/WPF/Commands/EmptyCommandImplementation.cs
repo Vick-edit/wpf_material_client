@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 namespace WPF_client.Utilities.WPF.Commands
 {
+    /// <summary> Реализация команд без параметров </summary>
     public class EmptyCommandImplementation : ICommand
     {
         #region Data

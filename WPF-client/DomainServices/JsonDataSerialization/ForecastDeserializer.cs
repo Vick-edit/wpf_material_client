@@ -9,8 +9,12 @@ using WPF_client.DomainServices.JsonDataSerialization.MapingObjects;
 
 namespace WPF_client.DomainServices.JsonDataSerialization
 {
+    /// <summary> Класс для десериализации объекта, содержащего предсказания </summary>
     public class ForecastDeserializer : IJsonSingleObjectDeserializer<ForecastBlock>
     {
+        /// <summary> Вытащить из JSON данные предсказаний </summary>
+        /// <param name="jsonString">Строковая переменная с одним JSPN объектом <see cref="ForecastBlock"/></param>
+        /// <returns>Данные <see cref="ForecastBlock"/>, которые содержались в JSON</returns>
         public ForecastBlock Deserialize(string jsonString)
         {
             try

@@ -5,8 +5,15 @@ using System.Windows.Media;
 
 namespace WPF_client.Converters
 {
+    /// <summary> Конвертер, используется, чтобы добавить к существующей кисти прозрачности </summary>
     public class OpacityBrushConverter : IValueConverter
     {
+        /// <summary> Преобразовать кисть в кисть с прозрачностью </summary>
+        /// <param name="value">Кисть <see cref="SolidColorBrush"/>, которая будет преобразована </param>
+        /// <param name="targetType">Не используется, всегда возвращается <see cref="SolidColorBrush"/></param>
+        /// <param name="parameter">Степень прозрачности кисти от 0d да 1d</param>
+        /// <param name="culture">Не используется</param>
+        /// <returns>Новая кисть с прозрачностью</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var bindedBrush = value as SolidColorBrush;
@@ -34,6 +41,7 @@ namespace WPF_client.Converters
             return newBrush;
         }
 
+        /// <summary> <see cref="NotImplementedException"/> </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

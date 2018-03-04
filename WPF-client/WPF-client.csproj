@@ -91,14 +91,15 @@
     <Compile Include="Converters\DatePointToStringCoverter.cs" />
     <Compile Include="Converters\OpacityBrushConverter.cs" />
     <Compile Include="Converters\SharedVisibilityConverter.cs" />
-    <Compile Include="DomainServices\ConnectionProviders\ForecastProvider.cs" />
-    <Compile Include="DomainServices\ConnectionProviders\Interfaces\IForecastProvider.cs" />
-    <Compile Include="DomainServices\CsvFileCreator.cs" />
-    <Compile Include="DomainServices\Events\BaseEvenetsDelegates.cs" />
-    <Compile Include="DomainServices\Events\ConnectionEventsDelegates.cs" />
-    <Compile Include="DomainServices\Events\ForecastEventsDelegates.cs" />
+    <Compile Include="Domain\DomainModels\ForecastObject.cs" />
+    <Compile Include="WPFServices\DataProviderWrappers\ForecastProvider.cs" />
+    <Compile Include="WPFServices\DataProviderWrappers\Interfaces\IForecastProvider.cs" />
+    <Compile Include="Utilities\CsvFileCreator.cs" />
+    <Compile Include="WPFServices\Events\BaseEvenetsDelegates.cs" />
+    <Compile Include="WPFServices\Events\ConnectionEventsDelegates.cs" />
+    <Compile Include="WPFServices\Events\ForecastEventsDelegates.cs" />
     <Compile Include="DomainServices\Exceptions\ConnectionException.cs" />
-    <Compile Include="DomainServices\ICsvFileCreator.cs" />
+    <Compile Include="Utilities\ICsvFileCreator.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\ForecastDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\ForecastObjectDeserializer.cs" />
     <Compile Include="DomainServices\JsonDataSerialization\Interfaces\IJsonDeserializer.cs" />
@@ -107,12 +108,12 @@
     <Compile Include="DomainServices\JsonDataSerialization\MapingObjects\ForecastJsonObject.cs" />
     <Compile Include="Domain\DomainModels\Forecast.cs" />
     <Compile Include="Domain\DomainModels\ForecastBlock.cs" />
-    <Compile Include="Domain\ServerConnection\ForecastConnection.cs" />
-    <Compile Include="Domain\ServerConnection\ForecastSize.cs" />
-    <Compile Include="Domain\ServerConnection\GetForecastObjects.cs" />
-    <Compile Include="Domain\ServerConnection\Interfaces\IForecastConnection.cs" />
-    <Compile Include="Domain\ServerConnection\Interfaces\IGetCommand.cs" />
-    <Compile Include="Domain\ServerConnection\ServerUrl.cs" />
+    <Compile Include="DomainServices\ServerDataProviders\GetForecastBlock.cs" />
+    <Compile Include="Domain\ForecastSize.cs" />
+    <Compile Include="DomainServices\ServerDataProviders\GetForecastObjects.cs" />
+    <Compile Include="DomainServices\ServerDataProviders\Interfaces\IGetListRequest.cs" />
+    <Compile Include="DomainServices\ServerDataProviders\Interfaces\IGetSingleObjectRequest.cs" />
+    <Compile Include="DomainServices\ServerConnection\ServerUrl.cs" />
     <Compile Include="Elements\ConnectionError.xaml.cs">
       <DependentUpon>ConnectionError.xaml</DependentUpon>
     </Compile>
@@ -128,8 +129,8 @@
     <Compile Include="Utilities\Formaters\FormaterMonth.cs" />
     <Compile Include="Utilities\Formaters\FormaterWeek.cs" />
     <Compile Include="Utilities\Formaters\FormaterYear.cs" />
-    <Compile Include="Utilities\Formaters\IFormater.cs" />
-    <Compile Include="Utilities\Session.cs" />
+    <Compile Include="Utilities\Formaters\Interfaces\IDateFormater.cs" />
+    <Compile Include="Utilities\SessionControllers\Session.cs" />
     <Compile Include="Utilities\WPF\Commands\BaseCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\Commands\EmptyCommandImplementation.cs" />
     <Compile Include="Utilities\WPF\DynamicResourceBinding.cs" />
@@ -139,9 +140,9 @@
     <Compile Include="Utilities\WPF\NotifyPropertyChanged\BaseNotifyPropertyChanged.cs" />
     <Compile Include="Utilities\WPF\Commands\CommandManagerHelper.cs" />
     <Compile Include="Utilities\WPF\Commands\MapCommandAttribute.cs" />
-    <Compile Include="Utilities\ThemSettings.cs" />
-    <Compile Include="Utilities\ExceptionLogger.cs" />
-    <Compile Include="Utilities\ThemSettingsHandler.cs" />
+    <Compile Include="Utilities\SessionControllers\ThemSettings.cs" />
+    <Compile Include="Utilities\SessionControllers\ExceptionLogger.cs" />
+    <Compile Include="Utilities\SessionControllers\ThemSettingsHandler.cs" />
     <Compile Include="ViewModel\ForecastChartViewModel.cs" />
     <Compile Include="ViewModel\ForecastsObjectsViewModel.cs" />
     <Compile Include="ViewModel\PaletteSelectorViewModel.cs" />

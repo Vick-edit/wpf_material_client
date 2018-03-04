@@ -6,15 +6,10 @@ using WPF_client.Utilities.WPF.NotifyPropertyChanged;
 
 namespace WPF_client.Elements
 {
+    /// <summary> Врапер контента любой страницы приложения для левого меню </summary>
     public class PageContentItem : BaseNotifyPropertyChanged, INotifyPropertyChanged
     {
-        private string _name;
-        private object _content;
-        private bool _isActive;
-        private IDialogController _dialogController;
         private StackPanel _contextElements;
-        private ScrollBarVisibility _horizontalScrollBarVisibilityRequirement;
-        private ScrollBarVisibility _verticalScrollBarVisibilityRequirement;
         private Thickness _marginRequirement = new Thickness(16);
 
 
@@ -23,8 +18,8 @@ namespace WPF_client.Elements
 
         public PageContentItem(string name, object content, IDialogController dialogController, StackPanel contextElements)
         {
-            _isActive = true;
-            _name = name;
+            IsActive = true;
+            Name = name;
             Content = content;
 
             DialogController = dialogController;
@@ -32,31 +27,36 @@ namespace WPF_client.Elements
         }
 
 
+        #region Данные формы
+        /// <summary> Доступна ли форма в меню </summary>
         public bool IsActive
         {
-            get { return _isActive; }
-            set { this.ChangeProperty(ref _isActive, value, RaisePropertyChanged()); }
+            get { return Get<bool>(); }
+            set { Set(value); }
         }
 
+        /// <summary> Имя формы в меню </summary>
         public string Name
         {
-            get { return _name; }
-            set { this.ChangeProperty(ref _name, value, RaisePropertyChanged()); }
+            get { return Get<string>(); }
+            set { Set(value); }
         }
 
+        /// <summary> Содержимое формы </summary>
         public object Content
         {
-            get { return _content; }
-            set { this.ChangeProperty(ref _content, value, RaisePropertyChanged()); }
+            get { return Get<object>(); }
+            set { Set(value); }
         }
 
-
+        /// <summary> Контрол для диалога об ошибках и прочего </summary>
         public IDialogController DialogController
         {
-            get { return _dialogController; }
-            set { this.ChangeProperty(ref _dialogController, value, RaisePropertyChanged()); }
+            get { return Get<IDialogController>(); }
+            set { Set(value); }
         }
 
+        /// <summary> Контекстное меню формы </summary>
         public StackPanel ContextElements
         {
             get { return _contextElements; }
@@ -67,7 +67,10 @@ namespace WPF_client.Elements
                 OnPropertyChanged(nameof(ContextMenuVisibility));
             }
         }
+        #endregion
 
+
+        #region Графическое представление формы
         public Visibility ContextMenuVisibility
         {
             get
@@ -82,20 +85,21 @@ namespace WPF_client.Elements
 
         public ScrollBarVisibility HorizontalScrollBarVisibilityRequirement
         {
-            get { return _horizontalScrollBarVisibilityRequirement; }
-            set { this.ChangeProperty(ref _horizontalScrollBarVisibilityRequirement, value, RaisePropertyChanged()); }
+            get { return Get<ScrollBarVisibility>(); }
+            set { Set(value); }
         }
 
         public ScrollBarVisibility VerticalScrollBarVisibilityRequirement
         {
-            get { return _verticalScrollBarVisibilityRequirement; }
-            set { this.ChangeProperty(ref _verticalScrollBarVisibilityRequirement, value, RaisePropertyChanged()); }
+            get { return Get<ScrollBarVisibility>(); }
+            set { Set(value); }
         }
 
         public Thickness MarginRequirement
         {
             get { return _marginRequirement; }
             set { this.ChangeProperty(ref _marginRequirement, value, RaisePropertyChanged()); }
-        }
+        } 
+        #endregion
     }
 }

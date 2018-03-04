@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.JsonDataSerialization.MapingObjects;
 
 namespace WPF_client.DomainServices.JsonDataSerialization
 {
-    public class ForecastObjectDeserializer : IJsonDeserializer<ForecastJsonObject>
+    /// <summary> Класс, извлекающий из JSON данные об объектах прогнозирования <see cref="ForecastObject"/> </summary>
+    public class ForecastObjectDeserializer : IJsonDeserializer<ForecastObject>
     {
-        public IList<ForecastJsonObject> Deserialize(string jsonString)
+        /// <summary> Вытащить данные об объектх прогнозирвоания <see cref="ForecastObject"/> </summary>
+        /// <param name="jsonString">Строка, содержащая JSON объекты</param>
+        /// <returns>Список <see cref="ForecastObject"/>, содержащийся во входном JSON</returns>
+        public IList<ForecastObject> Deserialize(string jsonString)
         {
             try
             {
@@ -15,7 +20,18 @@ namespace WPF_client.DomainServices.JsonDataSerialization
                 var jsonElements = JsonConvert.DeserializeObject<List<ForecastJsonObject>>(jsonString);
                 if (jsonElements == null || jsonElements.Count == 0)
                     throw new JsonException("Не удалось найти объекты прогнозирования в JSON");
-                return jsonElements;
+                //Преобразуем данные
+                var forecastObjects = new List<ForecastObject>();
+                foreach (var forecastJsonObject in jsonElements)
+                {
+                    var nextForecastObject = new ForecastObject()
+                    {
+                        Id = forecastJsonObject.id,
+                        Name = forecastJsonObject.name,
+                    };
+                    forecastObjects.Add(nextForecastObject);
+                }
+                return forecastObjects;
             }
             catch (Exception e)
             {

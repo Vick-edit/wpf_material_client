@@ -3,19 +3,12 @@ using Newtonsoft.Json;
 
 namespace WPF_client.DomainServices.JsonDataSerialization.MapingObjects
 {
+    /// <summary> Json прототип данных о прогнозе/реальном потреблении <see cref="Forecast"/> </summary>
     [JsonObject(MemberSerialization.OptOut)]
     public class ForecastJsonData
     {
-        //public long id { get; set; }
         public double ap { get; set; }
         public DateTime date { get; set; }
         public bool is_predict { get; set; }
-
-        /*
-        public int day { get; set; }
-        public int week { get; set; }
-        public int weekday { get; set; }
-        public int weekend { get; set; }
-        */
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WPF_client.Elements
 {
@@ -10,6 +11,7 @@ namespace WPF_client.Elements
         public SampleMessageDialog()
         {
             InitializeComponent();
+            this.Background = Brushes.Transparent;
         }
     }
 }

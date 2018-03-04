@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 namespace WPF_client.Utilities.WPF.Commands
 {
+    /// <summary> Базовая реализация комманд для MVVM </summary>
     public class BaseCommandImplementation : ICommand
     {
         #region Data

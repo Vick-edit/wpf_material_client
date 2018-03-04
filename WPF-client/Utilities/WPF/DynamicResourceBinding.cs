@@ -10,6 +10,7 @@ using System.Windows.Markup;
 
 namespace WPF_client.Utilities.WPF
 {
+    /// <summary> Новый вид Dynamic Binding, позволяющий использовать конвертеры </summary>
     public class DynamicResourceBinding : DynamicResourceExtension
     {
         #region Internal Classes

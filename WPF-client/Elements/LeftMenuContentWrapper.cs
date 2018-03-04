@@ -5,6 +5,10 @@ using MaterialDesignThemes.Wpf.Transitions;
 
 namespace WPF_client.Elements
 {
+    /// <summary> 
+    /// Надстройка над ContentControl, на которой будет храниться контент, выбранный в левом меню,
+    /// позволяет осуществить анимацию контента в соответствии с работой меню
+    /// </summary>
     [TemplateVisualState(GroupName = TemplateLeftDrawerGroupName, Name = TemplateLeftClosedStateName)]
     [TemplateVisualState(GroupName = TemplateLeftDrawerGroupName, Name = TemplateLeftOpenStateName)]
     [TemplatePart(Name = TopElement, Type = typeof(FrameworkElement))]

@@ -50,9 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainServicesTests\CsvFileCreatorTests.cs" />
+    <Compile Include="Utilities\CsvFileCreatorTests.cs" />
     <Compile Include="DomainServicesTests\JsonDataSerialization\ForecastDeserializerTest.cs" />
-    <Compile Include="DomainTests\ServerConnection\ForecastConnectionTest.cs" />
+    <Compile Include="DomainServices\ServerDataProviders\GetForecastBlockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,8 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="TestData\archive.json" />
-    <None Include="TestData\predict.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

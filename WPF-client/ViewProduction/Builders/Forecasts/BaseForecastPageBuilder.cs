@@ -1,21 +1,28 @@
 ﻿using System;
-using WPF_client.Domain.ServerConnection;
+using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices;
-using WPF_client.DomainServices.ConnectionProviders;
-using WPF_client.DomainServices.JsonDataSerialization;
+using WPF_client.DomainServices.ServerDataProviders;
 using WPF_client.Elements;
+using WPF_client.Utilities;
 using WPF_client.Utilities.Formaters;
 using WPF_client.Utilities.WPF.ElementControllers;
 using WPF_client.View;
 using WPF_client.ViewModel;
+using WPF_client.ViewProduction.Interfaces;
+using WPF_client.WPFServices.DataProviderWrappers;
 
 namespace WPF_client.ViewProduction.Builders.Forecasts
 {
+    /// <summary> Шаблон построения страницы с прогнозами </summary>
     public abstract class BaseForecastPageBuilder : BasePageBuilder, IPageBuilder
     {
+        /// <summary> Провайдер подписки на данные о прогнозах </summary>
         private IForecastProvider _forecastProvider;
+        /// <summary> Элемент, позволяющий создавать csv файлы из набора данных </summary>
         private ICsvFileCreator _csvFileCreator;
 
+
+        /// <summary> Задать бизнеслогику страницы </summary>
         public override void SetupBuisnesLogic()
         {
             base.SetupBuisnesLogic();
@@ -25,6 +32,7 @@ namespace WPF_client.ViewProduction.Builders.Forecasts
             _csvFileCreator = new CsvFileCreator();
         }
 
+        /// <summary> Построить VM для данной страницы </summary>
         public override void SetupViewModel()
         {
             base.SetupViewModel();
@@ -41,6 +49,7 @@ namespace WPF_client.ViewProduction.Builders.Forecasts
             ViewModel = new MainChartViewModel(_forecastProvider, DialogController, _csvFileCreator, formater, forecastPeriod);
         }
 
+        /// <summary> Построить view данной страницы </summary>
         public override void SetupView()
         {
             base.SetupView();
@@ -53,8 +62,10 @@ namespace WPF_client.ViewProduction.Builders.Forecasts
             ViewElement = view;
         }
 
-        protected abstract IForecastConnection GetForecastConnection();
+        /// <summary> Объект, позволяющий получить данные от сервера </summary>
+        protected abstract IGetSingleObjectRequest<ForecastBlock> GetForecastConnection();
 
-        protected abstract IFormater GetTimeFormater();
+        /// <summary> Форматтер для данных графика </summary>
+        protected abstract IDateFormater GetTimeFormater();
     }
 }

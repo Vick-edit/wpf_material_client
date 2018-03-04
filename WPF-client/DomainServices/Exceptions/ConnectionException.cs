@@ -2,6 +2,7 @@
 
 namespace WPF_client.DomainServices.Exceptions
 {
+    /// <summary> Ошибка соединения с сервером </summary>
     public class ConnectionException : Exception
     {
         public string UrlError { get; set; }

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using WPF_client.DomainServices.JsonDataSerialization;
 
-namespace WPF_client.Test.DomainServicesTests.JsonDataSerializationTests
+namespace WPF_client.Test.DomainServicesTests.JsonDataSerialization
 {
     [TestFixture]
     public class ForecastDeserializerTest
@@ -11,21 +11,19 @@ namespace WPF_client.Test.DomainServicesTests.JsonDataSerializationTests
         {
             //arrange
             var forecastDeserializer = new ForecastDeserializer();
-            var jsonString = "{" +
-                                "\"1388534400000\":{" +
-                                                    "\"AP\":76160.0," +
-                                                    "\"week\":1," +
-                                                     "\"day\":1," +
-                                                     "\"weekday\":2," +
-                                                     "\"weekend\":0" +
-                                                    "}," +
-                                "\"1388536200000\":{" +
-                                                    "\"AP\":76160.0," +
-                                                    "\"week\":1," +
-                                                     "\"day\":1," +
-                                                     "\"weekday\":2," +
-                                                     "\"weekend\":0" +
-                                                    "}," +
+            var jsonString = "{\"points\": [" +
+                                                "{" +
+                                                    "\"ap\": 93089387.52," +
+                                                    "\"date\": \"01.07.2014\"," +
+                                                    "\"is_predict\": true" +
+                                                "}," +
+                                                "{" +
+                                                    "\"ap\": 93089387.25," +
+                                                    "\"date\": \"01.08.2014\"," +
+                                                    "\"is_predict\": false" +
+                                                "}" +
+                                           "]," +
+                                "\"consumption\": \"2329.00\"" +
                              "}";
 
             //act
