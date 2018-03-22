@@ -40,8 +40,8 @@ namespace WPF_client.Utilities.WPF.NotifyPropertyChanged
 
 
         #region INotifyPropertyChanged через контейнер свойств
-        /// <summary> Задает вызывать сообщение об ошибке, если происходит попытка получить доступ к непроинициализированному свойству, по умолчанию - да </summary>
-        protected bool RaiseNotInitializedException = true;
+        /// <summary> Задает вызывать сообщение об ошибке, если происходит попытка получить доступ к непроинициализированному свойству, по умолчанию - нет </summary>
+        protected bool RaiseNotInitializedException = false;
 
         /// <summary> Получить данные свойства </summary>
         /// <typeparam name="T">Тип данныз свойства</typeparam>

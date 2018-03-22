@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using WPF_client.Domain;
 using WPF_client.Domain.DomainModels;
+using WPF_client.DomainServices.Exceptions;
 using WPF_client.DomainServices.JsonDataSerialization;
 using WPF_client.DomainServices.ServerConnection;
 using WPF_client.Utilities;
@@ -36,7 +37,11 @@ namespace WPF_client.DomainServices.ServerDataProviders
         {
             var request = new RestRequest(ServerUrl.ForecastsUris[_forecastSize], Method.GET);
             request.AddUrlSegment("id", Session.Instance.ActiveForecastObjectId.ToString());
-            var jsonData = _restClient.Execute(request).Content;
+            var response = _restClient.Execute(request);
+            if(response.ErrorException != null)
+                throw new ConnectionException(ServerUrl.ForecastsUris[_forecastSize], response.ErrorMessage, response.ErrorException);
+
+            var jsonData = response.Content;
             var forecastsData = _jsonDeserializer.Deserialize(jsonData);
             return forecastsData;
         }

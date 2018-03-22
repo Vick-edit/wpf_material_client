@@ -401,9 +401,9 @@ namespace WPF_client.ViewModel
             RealValues = realValues;
             ForecastValues = forecastValues;*/
 
-            var allDataValue = new ChartValues<Forecast>();
-            var measurementsValue = new ChartValues<Forecast>();
-            var forecastsValue = new ChartValues<Forecast>();
+            var allDataValue = new List<Forecast>();
+            var measurementsValue = new List<Forecast>();
+            var forecastsValue = new List<Forecast>();
             var prevForecast = forecasts.First();
             var isPreWasForecast = prevForecast.IsForecast;
 
@@ -431,9 +431,9 @@ namespace WPF_client.ViewModel
             }
             Consumption = forecastsBlock.Consumption;
             ConsumptionDate = forecastsValue.Last().ForecastTime.ToString("dd.MMM.yy");
-            ForecastValues = forecastsValue;
-            MeasurementsValues = measurementsValue;
-            ChartForecastValues = allDataValue;
+            ForecastValues = new ChartValues<Forecast>(forecastsValue.Distinct());
+            MeasurementsValues = new ChartValues<Forecast>(measurementsValue.Distinct());
+            ChartForecastValues = new ChartValues<Forecast>(allDataValue.Distinct());
         }
 
         private void OnConnectionLosted(object sender, ConnectionException updateError)

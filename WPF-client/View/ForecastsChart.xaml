@@ -64,6 +64,7 @@
                                                 AreaLimit="0"
                                                 PointGeometrySize="12"
                                                 Fill="Transparent"
+                                                LineSmoothness="0"
                                                 Configuration="{Binding AllDataMapper, Mode=OneTime}">
                 </liveChart:LineSeries>
                 <liveChart:LineSeries   Title="Прогноз:"
@@ -73,6 +74,7 @@
                                                 AreaLimit="0"
                                                 PointGeometrySize="12"
                                                 Fill="Transparent"
+                                                LineSmoothness="0"
                                                 Configuration="{Binding AllDataMapper, Mode=OneTime}">
                 </liveChart:LineSeries>
             </liveChart:CartesianChart.Series>
@@ -117,7 +119,7 @@
                                                 ConverterParameter=0.7
                                               }" 
                            FontSize="30" HorizontalAlignment="Center"
-                           Text="{Binding Consumption, StringFormat={}{0} кВт}"/>
+                           Text="{Binding Consumption, StringFormat={}{0} МВт}"/>
             </StackPanel>
         </Border>
         <liveChart:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" DisableAnimations="True" 
@@ -142,6 +144,7 @@
                                             StrokeThickness="0"
                                             PointGeometry="{x:Null}"
                                             AreaLimit="0"
+                                            LineSmoothness="0"
                                             Configuration="{Binding AllDataMapper, Mode=OneTime}"/>
             </liveChart:CartesianChart.Series>
             <liveChart:CartesianChart.AxisX>

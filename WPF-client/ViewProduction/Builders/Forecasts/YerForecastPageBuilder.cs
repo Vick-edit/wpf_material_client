@@ -18,7 +18,7 @@ namespace WPF_client.ViewProduction.Builders.Forecasts
 
         protected override IDateFormater GetTimeFormater()
         {
-            return new FormaterYear();
+            return new FormaterMonth();
         }
     }
 }
