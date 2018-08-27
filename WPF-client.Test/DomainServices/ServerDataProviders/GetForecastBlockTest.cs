@@ -16,7 +16,7 @@ namespace WPF_client.Test.DomainServices.ServerDataProviders
             //arrange
             Session.Instance.ActiveForecastObjectId = 1;
             var parser = new ForecastDeserializer();
-            var connection = new GetForecastBlock(parser, ForecastSize.ByMonth, "http://173.249.37.118:8000");
+            var connection = new GetForecastBlock(parser, ForecastSize.ByMonth, ServerUrl.ServerName);
 
             //act
             var forecastBlock = connection.GetDataFromServer();

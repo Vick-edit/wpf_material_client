@@ -1,4 +1,6 @@
-﻿using RestSharp;
+﻿using System;
+using System.IO;
+using RestSharp;
 using WPF_client.Domain;
 using WPF_client.Domain.DomainModels;
 using WPF_client.DomainServices.Exceptions;
@@ -35,13 +37,32 @@ namespace WPF_client.DomainServices.ServerDataProviders
         /// <returns>Данные о прогнозе в формате <see cref="ForecastBlock"/></returns>
         public ForecastBlock GetDataFromServer()
         {
+            string jsonData;
+#if DEBUG
+            var randomise = new Random();
+            var newValue = randomise.Next(0, 2);
+            if (newValue >= -1)
+            {
+                var exePath = AppDomain.CurrentDomain.BaseDirectory;
+                var rootFolder = Directory.GetParent(exePath).Parent.Parent.Parent.FullName;
+                var jsonFile = Path.Combine(rootFolder, "WPF-client.Test", "TestData", "archive.json");
+
+                jsonData = File.ReadAllText(jsonFile);
+            }
+            else
+            {
+                throw new ConnectionException("local");
+            }
+#else
             var request = new RestRequest(ServerUrl.ForecastsUris[_forecastSize], Method.GET);
             request.AddUrlSegment("id", Session.Instance.ActiveForecastObjectId.ToString());
             var response = _restClient.Execute(request);
             if(response.ErrorException != null)
                 throw new ConnectionException(ServerUrl.ForecastsUris[_forecastSize], response.ErrorMessage, response.ErrorException);
 
-            var jsonData = response.Content;
+            jsonData = response.Content;
+#endif
+            
             var forecastsData = _jsonDeserializer.Deserialize(jsonData);
             return forecastsData;
         }
